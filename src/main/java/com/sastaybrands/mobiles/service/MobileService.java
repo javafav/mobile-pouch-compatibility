@@ -6,15 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MobileService {
     @Autowired
     private MobileRepository mobileRepository;
 
-    public List<Mobile> getMobilesByModel(String model) {
-        return mobileRepository.findByModel(model);
-    }
+
 
     public void saveMobile(Mobile mobile) {
         mobileRepository.save(mobile);
@@ -27,4 +26,6 @@ public class MobileService {
     public List<Mobile> getMobilesByIds(List<Long> ids) {
         return mobileRepository.findAllById(ids);
     }
+
+
 }

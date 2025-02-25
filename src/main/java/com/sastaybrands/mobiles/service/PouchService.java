@@ -1,5 +1,6 @@
 package com.sastaybrands.mobiles.service;
 
+import com.sastaybrands.mobiles.entity.Mobile;
 import com.sastaybrands.mobiles.entity.Pouch;
 import com.sastaybrands.mobiles.repo.PouchRepository;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,8 @@ public class PouchService {
     public List<Pouch> getCompatiblePouches(String mobileModel) {
         return pouchRepository.findCompatiblePouchesByModel(mobileModel);
     }
-
     public void savePouch(Pouch pouch) {
-        pouchRepository.save(pouch);
+        pouchRepository.save(pouch);  // Saves pouch along with compatible mobiles
     }
 
     public List<Pouch> getAllPouches() {

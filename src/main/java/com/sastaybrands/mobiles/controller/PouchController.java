@@ -36,8 +36,13 @@ public class PouchController {
         }
 
         List<Mobile> mobiles = mobileService.getMobilesByIds(mobileIds);
-        pouch.setCompatibleMobiles(mobiles);
-        pouchService.savePouch(pouch);  // This method was missing in your PouchService, so ensure it's implemented.
+
+        // Ensure bidirectional relationship
+        for (Mobile mobile : mobiles) {
+            pouch.addMobile(mobile);  // This method maintains the relationship
+        }
+
+        pouchService.savePouch(pouch);
 
         return "redirect:/pouches/list";
     }

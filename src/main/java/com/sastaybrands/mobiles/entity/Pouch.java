@@ -3,7 +3,6 @@ package com.sastaybrands.mobiles.entity;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "pouches")
@@ -16,21 +15,30 @@ public class Pouch {
     private String material;
     private double price;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
     @JoinTable(
-            name = "pouch_mobile",
+            name = "pouch_mobile",  // Explicitly defining the join table
             joinColumns = @JoinColumn(name = "pouch_id"),
             inverseJoinColumns = @JoinColumn(name = "mobile_id")
     )
     private List<Mobile> compatibleMobiles = new ArrayList<>();
 
+    public Pouch() {
+    }
+
+    public Pouch(String name, String material, double price) {
+        this.name = name;
+        this.material = material;
+        this.price = price;
+    }
+
     // Utility method to maintain bidirectional relationship
-    public void addCompatibleMobile(Mobile mobile) {
+    public void addMobile(Mobile mobile) {
         this.compatibleMobiles.add(mobile);
         mobile.getPouches().add(this);
     }
 
-    public void removeCompatibleMobile(Mobile mobile) {
+    public void removeMobile(Mobile mobile) {
         this.compatibleMobiles.remove(mobile);
         mobile.getPouches().remove(this);
     }
@@ -50,17 +58,4 @@ public class Pouch {
 
     public List<Mobile> getCompatibleMobiles() { return compatibleMobiles; }
     public void setCompatibleMobiles(List<Mobile> compatibleMobiles) { this.compatibleMobiles = compatibleMobiles; }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pouch pouch = (Pouch) o;
-        return Objects.equals(id, pouch.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

@@ -30,17 +30,20 @@ public class HomeController {
         return "index";
     }
 
-    @PostMapping("/search")
-    public String searchMobile(@RequestParam String model, Model modelMap) {
-        mobileService.getMobileByModel(model);
-        if (mobile.isPresent()) {
-            List<Pouch> pouches = pouchService.getPouchesByMobile(mobile.get().getId());
-            modelMap.addAttribute("mobile", mobile.get());
-            modelMap.addAttribute("pouches", pouches);
-            return "search-result";
-        }
-        modelMap.addAttribute("error", "Mobile model not found.");
-        return "index";
-    }
+//    @PostMapping("/search")
+//    public String searchMobile(@RequestParam String model, Model modelMap) {
+//        Optional<Mobile> mobile = mobileService.getMobileByModel(model); // Store the result properly
+//
+//        if (mobile.isPresent()) {
+//            List<Pouch> pouches = pouchService.getPouchesByMobile(mobile.get().getId());
+//            modelMap.addAttribute("mobile", mobile.get());
+//            modelMap.addAttribute("pouches", pouches);
+//            return "search-result";
+//        }
+//
+//        modelMap.addAttribute("error", "Mobile model not found.");
+//        return "index";
+//    }
+
 }
 
