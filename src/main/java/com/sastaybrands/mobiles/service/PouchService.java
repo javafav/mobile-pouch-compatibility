@@ -25,4 +25,8 @@ public class PouchService {
     public List<Pouch> getAllPouches() {
         return pouchRepository.findAll();
     }
+
+    public List<Pouch> getMobileByModel(String model) {
+   return pouchRepository.findCompatiblePouchesByModel(model);
+    }
 }

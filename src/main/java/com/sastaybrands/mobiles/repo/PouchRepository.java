@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PouchRepository extends JpaRepository<Pouch, Long> {
-    @Query("SELECT p FROM Pouch p JOIN p.compatibleMobiles m WHERE m.model = :model")
+    @Query("SELECT p FROM Pouch p JOIN p.compatibleMobiles m WHERE m.model = :model OR m.name = :model")
     List<Pouch> findCompatiblePouchesByModel(@Param("model") String model);
 
     List<Pouch> findByCompatibleMobiles_Id(Long mobileId);
