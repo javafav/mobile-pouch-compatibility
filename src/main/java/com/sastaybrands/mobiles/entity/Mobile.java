@@ -12,22 +12,24 @@ public class Mobile {
     private Long id;
 
     private String name;
-    private String brand;
     private String model;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id", nullable = false)
+    private Brand brand;
 
     @ManyToMany(mappedBy = "compatibleMobiles")
     private List<Pouch> pouches = new ArrayList<>();
 
-    public Mobile() {
-    }
+    public Mobile() {}
 
-    public Mobile(String name, String brand, String model) {
+    public Mobile(String name, String model, Brand brand) {
         this.name = name;
-        this.brand = brand;
         this.model = model;
+        this.brand = brand;
     }
 
-    // Utility method to maintain bidirectional relationship
+    // Utility methods
     public void addPouch(Pouch pouch) {
         this.pouches.add(pouch);
         pouch.getCompatibleMobiles().add(this);
@@ -45,11 +47,11 @@ public class Mobile {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getBrand() { return brand; }
-    public void setBrand(String brand) { this.brand = brand; }
-
     public String getModel() { return model; }
     public void setModel(String model) { this.model = model; }
+
+    public Brand getBrand() { return brand; }
+    public void setBrand(Brand brand) { this.brand = brand; }
 
     public List<Pouch> getPouches() { return pouches; }
     public void setPouches(List<Pouch> pouches) { this.pouches = pouches; }

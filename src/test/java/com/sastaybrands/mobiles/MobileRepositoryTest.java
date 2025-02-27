@@ -1,6 +1,7 @@
 package com.sastaybrands.mobiles;
 
 
+import com.sastaybrands.mobiles.entity.Brand;
 import com.sastaybrands.mobiles.entity.Mobile;
 import com.sastaybrands.mobiles.repo.MobileRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import java.util.List;
@@ -23,15 +23,17 @@ class MobileRepositoryTest {
     private MobileRepository mobileRepository;
 
     private Mobile mobile1;
+    private Brand brand;
     private Mobile mobile2;
     private Mobile duplicateMobile;
 
     @BeforeEach
     void setUp() {
         // Arrange: Create test mobiles
-        mobile1 = new Mobile("Galaxy S21", "Samsung", "S21");
-        mobile2 = new Mobile("iPhone 13", "Apple", "13");
-        duplicateMobile = new Mobile("Galaxy S21", "Samsung", "S21");
+        brand = new Brand();
+        brand.setName("Samsung");
+        mobile1 = new Mobile("Galaxy S21", "Samsung", brand);
+
 
         mobileRepository.save(mobile1);
         mobileRepository.save(mobile2);
