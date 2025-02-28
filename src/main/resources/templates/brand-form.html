@@ -10,8 +10,8 @@
 
 <div class="flex items-center justify-center min-h-screen p-4 pt-10">
     <div class="w-full max-w-lg bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
-        <h2 class="text-3xl font-extra bold mb-6 text-center text-gray-800">Add a New Mobile</h2>
-        <form th:action="@{/mobiles/save}" method="post" th:object="${mobile}" class="space-y-4">
+        <h2 class="text-3xl font-extrabold mb-6 text-center text-gray-800">Add a New Mobile</h2>
+        <form th:action="@{/brands/save}" method="post" th:object="${brand}" class="space-y-4">
             <div>
                 <label class="block text-gray-700 font-semibold mb-1">Name:</label>
                 <input type="text" th:field="*{name}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>

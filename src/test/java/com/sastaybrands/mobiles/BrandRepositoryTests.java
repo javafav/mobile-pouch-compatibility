@@ -68,6 +68,7 @@ class BrandRepositoryTests {
 
     @Test
     void testDeleteBrand() {
+        Brand brand = new Brand(3L);
         repo.deleteById(brand.getId());
 
         Optional<Brand> deletedBrand = repo.findById(brand.getId());
