@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Brands</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+<!-- Navigation -->
+<div th:replace="navigation :: menu"></div>
+<div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+        <thead class="bg-blue-400 text-white">
+        <tr>
+
+
+            <th>Brand ID</th>
+					<th>Logo</th>
+					<th th:replace="fragments :: column_link('/brands', 'name', 'Brand Name', 'none')" />
+					<th>Categories</th>
+					<th></th>
+            <th class="py-3 px-6 text-left">ID</th>
+            <th class="py-3 px-6 text-left">Logo</th>
+            <th class="py-3 px-6 text-left">Brand Name</th>
+            <th class="py-3 px-6 text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody class="text-gray-700">
+        <tr class="border-b hover:bg-gray-100">
+            <td class="py-3 px-6">1</td>
+            <td class="py-3 px-6">iPhone 13</td>
+            <td class="py-3 px-6">Apple</td>
+            <td class="py-3 px-6">A2633</td>
+            <td class="py-3 px-6 text-center">
+                <button class="bg-green-300 text-white px-3 py-1 rounded-md hover:bg-green-600">Edit</button>
+                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">Delete</button>
+            </td>
+        </tr>
+        <tr class="border-b hover:bg-gray-100">
+            <td class="py-3 px-6">2</td>
+            <td class="py-3 px-6">Galaxy S21</td>
+            <td class="py-3 px-6">Samsung</td>
+            <td class="py-3 px-6">SM-G991B</td>
+            <td class="py-3 px-6 text-center">
+                <button class="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600">Edit</button>
+                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>
