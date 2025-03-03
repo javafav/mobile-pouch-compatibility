@@ -1,54 +1,76 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Brands</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+<head th:replace="fragments :: page_head('Brands - ShopmeAdmin', 'none')"></head>
+
 <body class="bg-gray-100">
-<!-- Navigation -->
-<div th:replace="navigation :: menu"></div>
-<div class="overflow-x-auto">
-    <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
-        <thead class="bg-blue-400 text-white">
-        <tr>
+    <div class="container mx-auto px-4">
+        <div th:replace="navigation :: menu"></div>
+
+        <div class="my-6">
+            <h2 class="text-2xl font-semibold">Manage Brands</h2>
+
+            <a th:href="@{/brands/new}" class="text-gray-700 text-2xl mr-3">
+                <i class="fas fa-folder-plus"></i>
+            </a>
+            <a th:href="@{/brands/export/csv}" class="text-gray-700 text-2xl">
+                <i class="fas fa-file-csv"></i>
+            </a>
+        </div>
 
 
-            <th>Brand ID</th>
-					<th>Logo</th>
-				
-					<th>Categories</th>
-					<th></th>
-            <th class="py-3 px-6 text-left">ID</th>
-            <th class="py-3 px-6 text-left">Logo</th>
-            <th class="py-3 px-6 text-left">Brand Name</th>
-            <th class="py-3 px-6 text-center">Actions</th>
-        </tr>
-        </thead>
-        <tbody class="text-gray-700">
-        <tr class="border-b hover:bg-gray-100">
-            <td class="py-3 px-6">1</td>
-            <td class="py-3 px-6">iPhone 13</td>
-            <td class="py-3 px-6">Apple</td>
-            <td class="py-3 px-6">A2633</td>
-            <td class="py-3 px-6 text-center">
-                <button class="bg-green-300 text-white px-3 py-1 rounded-md hover:bg-green-600">Edit</button>
-                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">Delete</button>
-            </td>
-        </tr>
-        <tr class="border-b hover:bg-gray-100">
-            <td class="py-3 px-6">2</td>
-            <td class="py-3 px-6">Galaxy S21</td>
-            <td class="py-3 px-6">Samsung</td>
-            <td class="py-3 px-6">SM-G991B</td>
-            <td class="py-3 px-6 text-center">
-                <button class="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600">Edit</button>
-                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">Delete</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-300">
+                <thead class="bg-gray-800 text-white">
+                    <tr>
+                        <th class="px-4 py-2">Brand ID</th>
+                        <th class="px-4 py-2">Logo</th>
+                        <th th:replace="fragments :: column_link('name', 'Brand Name', 'none')"></th>
+                        <th class="px-4 py-2">Categories</th>
+                        <th class="px-4 py-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                    <th:block th:each="brand : ${listBrands}">
+                        <tr class="border-b">
+                            <td class="px-4 py-2">[[${brand.id}]]</td>
+                            <td class="px-4 py-2">
+                                <img th:src="@{${brand.logoPath}}" class="w-24 h-auto">
+                            </td>
+                            <td class="px-4 py-2">[[${brand.name}]]</td>
+                       
+                            <td class="px-4 py-2 flex space-x-2">
+                                <div th:replace="fragments :: edit('brand','/brands/edit/' + ${brand.id})"></div>
+                                <div th:replace="fragments :: delete('brand','/brands/delete/' + ${brand.id},${brand.id},true)"></div>
+                            </td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
 
+        <div class="mt-6">
+            <div th:each="brand : ${listBrands}" class="flex bg-white shadow rounded-lg p-4 mb-4">
+                <div class="w-24 h-auto">
+                    <img th:src="@{${brand.logoPath}}" class="w-full h-auto">
+                </div>
+                <div class="ml-4 flex-grow">
+                    <div class="text-lg font-semibold mb-2">[[${brand.name}]]</div>
+                    <div class="flex space-x-2">
+                        <div th:replace="fragments :: edit('brand','/brands/edit/' + ${brand.id})"></div>
+                        <div th:replace="fragments :: delete('brand','/brands/delete/' + ${brand.id},${brand.id},true)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+      
+    </div>
+
+    <script th:src="@{/js/common.js}"></script>
+    <script th:src="@{/js/common_lists.js}"></script>
+    <script type="text/javascript">
+        moduleURL = "[[@{/brands}]]";
+        entityName = "brands";
+    </script>
 </body>
 </html>

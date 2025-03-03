@@ -1,9 +1,10 @@
 package com.sastaybrands.mobiles.controller;
 
-import com.sastaybrands.mobiles.FileUploadUtil;
 import com.sastaybrands.mobiles.entity.Brand;
 import com.sastaybrands.mobiles.exception.BrandNotFoundException;
 import com.sastaybrands.mobiles.service.BrandService;
+import com.sastaybrands.mobiles.util.FileUploadUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
