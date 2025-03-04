@@ -7,18 +7,20 @@
        
    <title>[[${title}]]</title>
    
-
+   <link rel="stylesheet"
+       th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" type="text/css" />
    <link rel="stylesheet" th:href="@{/fontawesome/css/all.css}">
    
    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
    
-   <link rel="stylesheet" data-th-href="@{'/css/output.css'}">
+   <link rel="stylesheet" th:href="@{/css/style.css}">
+
    
    </head>
 
-   <th th:fragment="column_link(fieldName, columnLabel, tag)" th:remove="${tag}">
-    <a class="text-white"
+   <th  class="px-4 py-2 text-left text-white-700"  th:fragment="column_link(fieldName, columnLabel, tag)" th:remove="${tag}">
+    <a
     th:href="@{${moduleURL} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + '&keyword=' + ${keyword != null ? keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : '' }}"
     >
         [[${columnLabel}]] 

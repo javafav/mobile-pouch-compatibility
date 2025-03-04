@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head('Brands - ShopmeAdmin', 'none')"></head>
+<head th:replace="fragments :: page_head('Brands - MobileMatcher', 'none')"></head>
 
 <body class="bg-gray-100">
     <div class="container mx-auto px-4">
         <div th:replace="navigation :: menu"></div>
 
         <div class="my-6">
-            <h2 class="text-2xl font-semibold">Manage Brands</h2>
+            <h2 class="text-2xl font-extrabold text-center">Manage Brands</h2>
 
             <a th:href="@{/brands/new}" class="text-gray-700 text-2xl mr-3">
                 <i class="fas fa-folder-plus"></i>
@@ -22,10 +22,10 @@
             <table class="min-w-full bg-white border border-gray-300">
                 <thead class="bg-gray-800 text-white">
                     <tr>
-                        <th class="px-4 py-2">Brand ID</th>
-                        <th class="px-4 py-2">Logo</th>
+                        <th class="px-4 py-2 text-left">Brand ID</th>
+                        <th class="px-4 py-2 text-left">Logo</th>
                         <th th:replace="fragments :: column_link('name', 'Brand Name', 'none')"></th>
-                        <th class="px-4 py-2">Categories</th>
+                       
                         <th class="px-4 py-2">Actions</th>
                     </tr>
                 </thead>
