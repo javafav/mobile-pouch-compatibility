@@ -1,50 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/extras/spring-security5">
+<head>
+<meta charset="ISO-8859-1">
+</head>
+<body>
+	<div th:fragment="menu">
+		<form th:action="@{/logout}" method="post" th:hidden="true"
+			name="logoutForm">
+			<input type="submit">
+		</form>
+			
+		
+		<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+			<a class="navbar-brand" th:href="@{/}"> <img
+				th:src="@{/images/mobile matcher.png}" alt="Mobile Matcher">
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#topNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-<html xmlns:th="http://www.thymeleaf.org">
+			<div class="collapse navbar-collapse" id="topNavbar">
+				<ul class="navbar-nav">
+		
+     			
+				
+					
+		
+				<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+						
+					<li class="nav-item dropdown">
+     				
+							<a	class="nav-link dropdown-toggle" data-toggle="dropdown"
+								th:href="@{/brands}" >Brands</a>
+							
+							<div class="dropdown-menu">
 
-<div th:fragment="menu">
+							<a class="dropdown-item dropdown-menu-hover"  th:href="@{/brands/new}">Create New Brand</a>
+							<a class="dropdown-item dropdown-menu-hover"  th:href="@{/brands}">View All</a>
+							<a class="dropdown-item dropdown-menu-hover"  th:href="@{/brands/brand_module_info}">Brand Module Info</a>
+							
+							
+							</div>
+						</li>
+				
 
-    <body class="bg-gray-100">
-    <nav class="bg-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="#" class="text-xl font-bold text-gray-800">Mobile Match</a>
-                </div>
-                <div class="hidden md:flex space-x-6 items-center">
-                    <a href="#" class="text-gray-700 hover:text-blue-500">Home</a>
-                    <a th:href="@{/brands}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Brands</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-500">About</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-500">Contact</a>
-                </div>
-                <div class="md:hidden flex items-center">
-                    <button id="menu-toggle" class="text-gray-700 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div id="mobile-menu" class="md:hidden hidden">
-            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Home</a>
-            <a th:href="@{/brands}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Brands</a>
-            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">About</a>
-            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Contact</a>
-        </div>
-    </nav>
+						</th:block>
 
-    <script>
-        const menuToggle = document.getElementById('menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
+				
 
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    </script>
-    </body>
+				
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" data-toggle="dropdown"
+						th:href="@{/account}" sec:authentication="principal.fullName"></a>
+						<div class="dropdown-menu">
 
-</div>
+							<a class="dropdown-item dropdown-menu-hover " id="logoutLink"
+								href="">Logout</a>
+						</div></li>
+				</ul>
+
+			</div>
+		</nav>
+	</div>
+
+
+
+
+
+</body>
 </html>
-
-
-
