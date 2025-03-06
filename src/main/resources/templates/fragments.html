@@ -30,12 +30,12 @@
 
 	<a th:fragment="page_link(pageNum,columnLabel)"
 	    class="page-link"
-		th:href="@{${moduleURL} + '/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir='+ ${sortDir} + '&keyword=' + ${keyword != null ? keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : '' }}">[[${columnLabel}]]</a>
+		th:href="@{${moduleURL} + '/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir='+ ${sortDir} + '&keyword=' + ${keyword != null ? keyword : ''}} ">[[${columnLabel}]]</a>
 
 
 
 	<div class="text-center mt-2  footer" th:fragment="footer">
-		<p>Shopme Control Panel - Copyright &copy; Shopme</p>
+		<p>Mobile Matcher - Copyright &copy; Mobile Matcher</p>
 	</div>
 	
 	

@@ -60,6 +60,7 @@ public class BrandController {
         model.addAttribute("reverseSortDir", reverseSortDir);
         model.addAttribute("keyword", keyword);
         model.addAttribute("listBrands", listBrands);
+       
 
         return "brands";
     }
@@ -69,7 +70,7 @@ public class BrandController {
         model.addAttribute("brand", new Brand());
         model.addAttribute("pageTitle", "Create New Brand");
 
-        return "/brand-form";
+        return "/brand_form";
     }
 
     @PostMapping("/brands/save")
@@ -80,7 +81,7 @@ public class BrandController {
             brand.setLogo(fileName);
 
             Brand savedBrand = brandService.save(brand);
-            String uploadDir = "../brand-logos/" + savedBrand.getId();
+            String uploadDir = "./brand-logos/" + savedBrand.getId();
 
             FileUploadUtil.cleanDir(uploadDir);
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
