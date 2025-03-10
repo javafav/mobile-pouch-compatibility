@@ -49,7 +49,7 @@ public class BrandController {
         }
 
         String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-
+        
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("startCount", startCount);
@@ -60,6 +60,7 @@ public class BrandController {
         model.addAttribute("reverseSortDir", reverseSortDir);
         model.addAttribute("keyword", keyword);
         model.addAttribute("listBrands", listBrands);
+     
        
 
         return "brands";
@@ -70,7 +71,7 @@ public class BrandController {
         model.addAttribute("brand", new Brand());
         model.addAttribute("pageTitle", "Create New Brand");
 
-        return "/brand_form";
+        return "brand_form";
     }
 
     @PostMapping("/brands/save")
@@ -105,7 +106,7 @@ public class BrandController {
 
             model.addAttribute("pageTitle", "Edit Brand (ID: " + id + ")");
 
-            return "brands/brand_form";
+            return "brand_form";
         } catch (BrandNotFoundException ex) {
             ra.addFlashAttribute("message", ex.getMessage());
             return "redirect:/brands";

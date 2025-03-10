@@ -11,8 +11,14 @@ public class Mobile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 45, unique = true)
     private String name;
+   
+    @Column(nullable = false, length = 16, unique = true)
     private String model;
+    
+    @Column(nullable = false, length = 64, unique = true)
+    private String photo;
 
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
@@ -55,4 +61,27 @@ public class Mobile {
 
     public List<Pouch> getPouches() { return pouches; }
     public void setPouches(List<Pouch> pouches) { this.pouches = pouches; }
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+    
+	
+	
+	 @Override
+	public String toString() {
+		return "Mobile [id=" + id + ", name=" + name + ", model=" + model + "]";
+	}
+
+	@Transient
+		public String getPhtotPath() {
+			if (this.id == null) return "/images/image-thumbnail.png";
+			
+			return "/mobile-photos/" + this.id + "/" + this.photo;		
+		}
+    
 }

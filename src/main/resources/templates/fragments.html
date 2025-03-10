@@ -15,6 +15,9 @@
 <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 </head>
+
+
+
 <body>
 
 	<th th:fragment="column_link(fieldName, columnLabel, tag)" th:remove="${tag}">
@@ -28,9 +31,10 @@
 
 	</th>
 
-	<a th:fragment="page_link(pageNum,columnLabel)"
-	    class="page-link"
-		th:href="@{${moduleURL} + '/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir='+ ${sortDir} + '&keyword=' + ${keyword != null ? keyword : ''}} ">[[${columnLabel}]]</a>
+<a th:fragment="page_link(moduleURL, pageNum, label)"
+		class="page-link" 
+		th:href="@{${moduleURL} + '/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"
+		>[[${label}]]</a>
 
 
 
@@ -66,7 +70,7 @@
 		<th:block th:if="${visible}">
 
 
-			<a class="fas fa-trash fa-2x icon-dark link-delete"
+			<a class="fas fa-trash fa-2x icon-red link-delete"
 				
 				th:href="@{${deleteURL}}"
 				th:entityId="${entityId}" 
@@ -76,63 +80,42 @@
 
 
 
-	<div th:fragment="pagination(entityName)" th:remove="${tag}">
-
-		<div class="text-center">
-			<span th:if="${totalItems > 0}">Showing [[${entityName}]] #
-				[[${startCount}]] to [[${endCount}]] of total [[${totalItems}]]</span> <span
-				th:unless="${totalItems > 0}">No [[${entityName}]] found</span>
-		</div>
-		<div th:if="${totalPages > 1}">
-
-			<nav>
-				<ul class="pagination justify-content-center flex-wrap">
-					<li
-						th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-						<a th:replace="fragments :: page_link(1,'First')"></a>
-					</li>
-					<li
-						th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-
-						<a
-						th:replace="fragments :: page_link(${currentPage -1},'Previous')"></a>
-
-					</li>
-					<li
-						th:class="${currentPage == i ? 'page-item active' : 'page-item'}"
-						th:each="i : ${#numbers.sequence(1,totalPages)}"><a
-						th:replace="fragments :: page_link(${i},${i})"></a></li>
-
-					<li
-						th:class="${currentPage < totalPages  ? 'page-item' : 'page-item disabled'}">
-
-						<a
-						th:replace="fragments :: page_link(${currentPage + 1},'Next')"></a>
-
-					</li>
-					<li
-						th:class="${currentPage < totalPages  ? 'page-item' : 'page-item disabled'}">
-
-						<a
-						th:replace="fragments :: page_link(${totalPages},'Last')"></a>
-
-					</li>
-				</ul>
-			</nav>
-		</div>
-
+	<div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
+	<div class="text-center m-1" th:if="${totalItems > 0}">
+		<span>Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+	</div>
+	<div class="text-center m-1" th:unless="${totalItems > 0}">
+		<span>No [[${entityName}]] found</span>
 	</div>
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	<div th:if="${totalPages > 1}">
+		<nav>
+		  <ul class="pagination justify-content-center flex-wrap">
+		    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+		    	<a th:replace="fragments :: page_link(${moduleURL}, 1, 'First')"></a>
+		    </li>		  
+		    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+		    	<a th:replace="fragments :: page_link(${moduleURL}, ${currentPage - 1}, 'Previous')"></a>
+		    </li>
+		    
+		    <li th:class="${currentPage != i ? 'page-item': 'page-item active'}" 
+		    	th:each="i : ${#numbers.sequence(1, totalPages)}">
+		    	<a th:replace="fragments :: page_link(${moduleURL}, ${i}, ${i})"></a>
+		    </li>
+		    
+		    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+		    	<a th:replace="fragments :: page_link(${moduleURL}, ${currentPage + 1}, 'Next')"></a>
+		    </li>
+		    
+		    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+		    	<a th:replace="fragments :: page_link(${moduleURL}, ${totalPages}, 'Last')"></a>
+		    </li>		    
+		  </ul>
+		</nav>	
+	</div>		
+	</div>
 
-	<div class="m-3" th:fragment="search_form_and_message">
+		<div class="m-3" th:fragment="search_form_and_message(moduleURL)">
 		<form th:action="@{${moduleURL} + '/page/1'}" class="form-inline">
 			<input type="hidden" name="sortField" th:value="${sortField}">
 			<input type="hidden" name="sortDir" th:value="${sortDir}">

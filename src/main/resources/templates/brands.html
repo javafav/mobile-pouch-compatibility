@@ -16,7 +16,7 @@
 		</div>
 
 		
-		<div th:replace="fragments :: search_form_and_message"></div>
+		<div th:replace="fragments :: search_form_and_message('/brands')"></div>
 
 
 		<div class="full-details">
@@ -93,7 +93,7 @@
 		</div>
 
 
-		<div th:replace="fragments :: pagination('brand')"></div>
+		<div th:replace="fragments :: pagination('/brands', 'brand')"></div>
 
 		<div th:replace="modal_fragments :: confirm_modal"></div>
 		<div th:replace="fragments :: footer"></div>

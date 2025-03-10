@@ -15,7 +15,9 @@ body {
     flex-shrink: 0;
 }
 
-
+.icon-red {
+	color: #EC7FA9;
+}
 
 .icon-white {
 	color: white;
@@ -40,6 +42,10 @@ body {
 	color: #333;
 }
 
+
+.icon-red:hover {
+	color: #D76C82;
+}
 @media screen and (max-width:768px) {
 	/* small screens */
 	div .full-details {
