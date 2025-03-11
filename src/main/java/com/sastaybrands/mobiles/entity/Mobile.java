@@ -78,7 +78,7 @@ public class Mobile {
 	}
 
 	@Transient
-		public String getPhtotPath() {
+		public String getPhotoPath() {
 			if (this.id == null) return "/images/image-thumbnail.png";
 			
 			return "/mobile-photos/" + this.id + "/" + this.photo;		

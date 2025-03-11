@@ -25,27 +25,27 @@ public class PouchController {
     @GetMapping("/add")
     public String showAddPouchForm(Model model) {
         model.addAttribute("pouch", new Pouch());
-        model.addAttribute("mobiles", mobileService.getAllMobiles());
+        model.addAttribute("mobiles", mobileService.listAll());
         return "add-pouch";
     }
 
-    @PostMapping("/save")
-    public String savePouch(@ModelAttribute Pouch pouch, @RequestParam(required = false) List<Long> mobileIds) {
-        if (mobileIds == null || mobileIds.isEmpty()) {
-            return "redirect:/pouches/add?error=NoMobilesSelected";
-        }
-
-        List<Mobile> mobiles = mobileService.getMobilesByIds(mobileIds);
-
-        // Ensure bidirectional relationship
-        for (Mobile mobile : mobiles) {
-            pouch.addMobile(mobile);  // This method maintains the relationship
-        }
-
-        pouchService.savePouch(pouch);
-
-        return "redirect:/pouches/list";
-    }
+//    @PostMapping("/save")
+//    public String savePouch(@ModelAttribute Pouch pouch, @RequestParam(required = false) List<Long> mobileIds) {
+//        if (mobileIds == null || mobileIds.isEmpty()) {
+//            return "redirect:/pouches/add?error=NoMobilesSelected";
+//        }
+//
+//        List<Mobile> mobiles = mobileService.getMobilesByIds(mobileIds);
+//
+//        // Ensure bidirectional relationship
+//        for (Mobile mobile : mobiles) {
+//            pouch.addMobile(mobile);  // This method maintains the relationship
+//        }
+//
+//        pouchService.savePouch(pouch);
+//
+//        return "redirect:/pouches/list";
+//    }
 
     @GetMapping("/list")
     public String listPouches(Model model) {
