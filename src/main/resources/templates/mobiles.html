@@ -29,6 +29,7 @@
 
 						<th class="hideable-column">Mobile ID</th>
 						<th>Photo</th>
+						<th>Brand</th>
 						<th
 							th:replace="fragments :: column_link('name', 'Mobile Name', 'none')" />
 						
@@ -42,6 +43,7 @@
 							<td class="hideable-column">[[${mobile.id}]]</td>
 							<td><img th:src="@{${mobile.photoPath}}" class="img-fluid"
 								style="width: 100px; height: auto;"></td>
+							<td>[[${mobile.brand.name}]]</td>
 							<td>[[${mobile.name}]]</td>
 							<td>[[${mobile.model}]]</td>
 							<td>
@@ -94,7 +96,9 @@
 		</div>
 
 
-		<div th:replace="fragments :: pagination('/mobiles', 'mobile')"></div>
+
+		
+		<div th:replace="pagination_for_more_then_10page :: pagination('/mobiles', 'mobile')"></div>
 
 		<div th:replace="modal_fragments :: confirm_modal"></div>
 		<div th:replace="fragments :: footer"></div>

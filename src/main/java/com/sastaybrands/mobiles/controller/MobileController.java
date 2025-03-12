@@ -44,6 +44,7 @@ public class MobileController {
 	        String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 	        
 	        model.addAttribute("currentPage", pageNum);
+	        
 	        model.addAttribute("totalPages", page.getTotalPages());
 	        model.addAttribute("startCount", startCount);
 	        model.addAttribute("endCount", endCount);
@@ -52,6 +53,7 @@ public class MobileController {
 	        model.addAttribute("sortDir", sortDir);
 	        model.addAttribute("reverseSortDir", reverseSortDir);
 	        model.addAttribute("keyword", keyword);	
+	        	
 	        model.addAttribute("listMobiles", listMobiles);
 	     
 	       
