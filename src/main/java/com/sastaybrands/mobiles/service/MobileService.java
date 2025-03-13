@@ -56,21 +56,35 @@ public class MobileService {
 		}
 		repo.deleteById(id);
 	}
- 
+
 	public void saveMobile(Mobile mobile) {
 		repo.save(mobile);
 	}
 
-	public String checkUnique(Long id, String name) {
-		boolean isCreatingNew = (id == null || id == 0L);
+	public String checkUnique(Long id, String name, String model) {
+		boolean isCreatingNew = (id == null || id == 0);
+
 		Mobile mobileByName = repo.findByName(name);
 
 		if (isCreatingNew) {
 			if (mobileByName != null) {
-				return "Duplicate";
+				return "DuplicateName";
+			} else {
+				Mobile mobileByModel = repo.findByModel(model);
+				if (mobileByModel != null) {
+					return "DuplicateModel";
+				}
 			}
-		} else if (mobileByName != null && mobileByName.getId() != id) {
-			return "Duplicate";
+		} else {
+			if (mobileByName != null && mobileByName.getId() != id) {
+				return "DuplicateName";
+			}
+
+			Mobile mobileByModel = repo.findByModel(model);
+			if (mobileByModel != null && mobileByModel.getId() != id) {
+				return "DuplicateModel";
+			}
+
 		}
 
 		return "OK";

@@ -15,11 +15,14 @@ public interface MobileRepository extends JpaRepository<Mobile, Long> {
     public Long count(Long id);
 	
 	
-    @Query("SELECT m FROM Mobile m WHERE m.name LIKE %?1% OR m.model LIKE %?1% ")
+    @Query("SELECT m FROM Mobile m WHERE m.name LIKE %?1% OR m.model LIKE %?1% OR m.brand.name LIKE %?1%")
     public Page<Mobile> findAll( String keyword, Pageable pageable);
 	
-    @Query("SELECT m FROM Mobile m WHERE m.name = ?1 OR m.model = ?1")
+    @Query("SELECT m FROM Mobile m WHERE m.name = ?1")
 	public Mobile findByName(String mobileName);
+    
+    @Query("SELECT m FROM Mobile m WHERE m.model = ?1")
+   	public Mobile findByModel(String modelName);
 
 }
 

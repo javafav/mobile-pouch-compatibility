@@ -11,10 +11,10 @@ public class Mobile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 45, unique = true)
+    @Column(nullable = false, length = 64, unique = true)
     private String name;
    
-    @Column(nullable = false, length = 16, unique = true)
+    @Column(nullable = false, length = 32, unique = true)
     private String model;
     
     @Column(nullable = false, length = 64, unique = true)
@@ -81,7 +81,7 @@ public class Mobile {
 		public String getPhotoPath() {
 			if (this.id == null) return "/images/image-thumbnail.png";
 			
-			return "/mobile-photos/" + this.id + "/" + this.photo;		
+			return "/mobile-photos/"  + this.photo;		
 		}
     
 }

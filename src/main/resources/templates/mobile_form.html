@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head(${pagetitle},'none')"></head>
+
+
+<body>
+	<div class="container-fluid">
+		<div th:replace="navigation :: menu"></div>
+		<div class="text-center m-3">
+			<h2>Manage Mobiles | [[${pageTitle}]]</h2>
+		</div>
+
+
+		<form th:action="@{/mobiles/save}" method="post" th:object="${mobile}"
+			style="max-width: 650px; margin: 0 auto;"
+			enctype="multipart/form-data" onsubmit="return checkUnique(this)">
+			<input type="hidden" th:field="*{id}">
+			<div class="border border-secondary rounded p-3">
+
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">Name:</label>
+					<div class="col-sm-8">
+						<input th:field="*{name}" type="text" class="form-control"
+							required minlength="2" maxlegth="64">
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">Model:</label>
+					<div class="col-sm-8">
+						<input th:field="*{model}" type="text" class="form-control"
+							required minlength="2" maxlegth="32">
+					</div>
+				</div>
+
+
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Brnad:</label>
+					<div class="col-sm-10">
+							<select class="form-control" th:field="*{brand}" required>
+								<th:block th:each="brand : ${listBrands}">
+
+									<option th:value="${brand.id}">[[${brand.name}]]</option>							
+							</select>
+				
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label mt-4">Photo:</label>
+					<div>
+						<input type="hidden" th:field="*{photo}"> <input
+							class="m-2" id="fileImage" name="fileImage" type="file"
+							accept="image/png, image/jpeg" th:required="${id == null}">
+						<div class="mt-2">
+
+							<img class="img-fluid" style="width: 100px; height: auto;"
+								id="thumbnail" th:src="@{${mobile.photoPath}}">
+						</div>
+					</div>
+				</div>
+
+
+
+				<div class=" text-center">
+					<input type="submit" class="btn btn-primary m-3" value="Save">
+					<input type="button" class="btn btn-secondary" value="Cancel"
+						id="buttonCancel">
+				</div>
+
+			</div>
+		</form>
+
+		<div th:replace="modal_fragments :: modal_dialog"></div>
+		<div th:replace="fragments :: footer"></div>
+
+
+	</div>
+	<script type="text/javascript">
+		moduleURL = "[[@{/mobiles}]]";
+		MAX_FILE_SIZE = 2 * 1024 * 1024; //2 MB
+		function checkUnique(form) {
+			url = "[[@{/mobiles/check_unique}]]";
+			mobId = $("#id").val();
+			mobName = $("#name").val();
+			mobModel = $("#model").val();
+			csrfValue = $("input[name = '_csrf']").val();
+
+			params = {
+				id : mobId,
+				name : mobName,
+				model : mobModel,
+				_csrf : csrfValue
+			};
+
+			$
+					.post(
+							url,
+							params,
+							function(response) {
+
+								if (response == 'OK') {
+									form.submit();
+								} else if (response == 'DuplicateName') {
+									showWarningDialog("There is another mobile exisits with the name: "
+											+ mobName);
+								} else if (response == 'DuplicateModel') {
+									showWarningDialog("There is another model exisits with the model: "
+											+ mobModel);
+								} else {
+									showErrorDialog("Unknown response from server")
+								}
+
+							}).fail(function() {
+						showErrorDialog("Could not connect to the server");
+
+					});
+			return false;
+		}
+	</script>
+	<script th:src="@{/js/common.js}"></script>
+	<script th:src="@{/js/common_forms.js}"></script>
+</body>
+
+</html>
