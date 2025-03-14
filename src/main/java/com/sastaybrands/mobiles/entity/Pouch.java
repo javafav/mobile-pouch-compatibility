@@ -12,21 +12,25 @@ public class Pouch {
     private Long id;
 
     private String name;
-    private String material;
+
+    @Enumerated(EnumType.STRING)
+    private Material material;
+
     private double price;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "pouch_mobile",  // Explicitly defining the join table
-            joinColumns = @JoinColumn(name = "pouch_id"),
-            inverseJoinColumns = @JoinColumn(name = "mobile_id")
+        name = "pouch_mobile",  
+        joinColumns = @JoinColumn(name = "pouch_id"),
+        inverseJoinColumns = @JoinColumn(name = "mobile_id")
     )
     private List<Mobile> compatibleMobiles = new ArrayList<>();
 
-    public Pouch() {
-    }
+    // Default constructor (required by JPA)
+    public Pouch() {}
 
-    public Pouch(String name, String material, double price) {
+    // Constructor with parameters
+    public Pouch(String name, Material material, double price) {
         this.name = name;
         this.material = material;
         this.price = price;
@@ -50,8 +54,8 @@ public class Pouch {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getMaterial() { return material; }
-    public void setMaterial(String material) { this.material = material; }
+    public Material getMaterial() { return material; }
+    public void setMaterial(Material material) { this.material = material; }
 
     public double getPrice() { return price; }
     public void setPrice(double price) { this.price = price; }

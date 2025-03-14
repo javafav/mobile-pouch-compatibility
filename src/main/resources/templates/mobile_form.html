@@ -36,19 +36,20 @@
 
 
 				<div class="form-group row">
-					<label class="col-sm-2 col-form-label">Brnad:</label>
-					<div class="col-sm-10">
+					<label class="col-sm-4 col-form-label">Brnad:</label>
+					<div class="col-sm-8">
 							<select class="form-control" th:field="*{brand}" required>
 								<th:block th:each="brand : ${listBrands}">
 
-									<option th:value="${brand.id}">[[${brand.name}]]</option>							
+									<option th:value="${brand.id}">[[${brand.name}]]</option>	
+									</th:block>						
 							</select>
 				
 					</div>
 				</div>
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label mt-4">Photo:</label>
-					<div>
+					<div class="col-sm-8">
 						<input type="hidden" th:field="*{photo}"> <input
 							class="m-2" id="fileImage" name="fileImage" type="file"
 							accept="image/png, image/jpeg" th:required="${id == null}">
@@ -102,10 +103,10 @@
 								if (response == 'OK') {
 									form.submit();
 								} else if (response == 'DuplicateName') {
-									showWarningDialog("There is another mobile exisits with the name: "
+									showWarningModal("There is another mobile exisits with the name: "
 											+ mobName);
 								} else if (response == 'DuplicateModel') {
-									showWarningDialog("There is another model exisits with the model: "
+									showWarningModal("There is another mobile exisits with the model: "
 											+ mobModel);
 								} else {
 									showErrorDialog("Unknown response from server")
@@ -119,7 +120,7 @@
 		}
 	</script>
 	<script th:src="@{/js/common.js}"></script>
-	<script th:src="@{/js/common_forms.js}"></script>
+	<script th:src="@{/js/common_form.js}"></script>
 </body>
 
 </html>
