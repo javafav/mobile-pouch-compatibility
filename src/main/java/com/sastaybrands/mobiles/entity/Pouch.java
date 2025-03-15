@@ -62,4 +62,12 @@ public class Pouch {
 
     public List<Mobile> getCompatibleMobiles() { return compatibleMobiles; }
     public void setCompatibleMobiles(List<Mobile> compatibleMobiles) { this.compatibleMobiles = compatibleMobiles; }
+
+	@Override
+	public String toString() {
+		return "Pouch [name=" + name + ", material=" + material + ", price=" + price + "]";
+	}
+    
+    
+    
 }
