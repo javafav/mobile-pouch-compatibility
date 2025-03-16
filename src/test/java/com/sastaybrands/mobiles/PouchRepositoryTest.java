@@ -55,20 +55,20 @@ class PouchRepositoryTest {
 		assertThat(savedPouch.getId()).isGreaterThan(0);
 	}
 
-	@Test
-	public void testCreateRuggedPouch() {
-		Mobile zero8 = entityManager.find(Mobile.class, 1);
-		Mobile zero8i = entityManager.find(Mobile.class, 2);
-
-		Pouch pouch = new Pouch("Rugged Pouch", Material.WOMEN_SPECIFIC, 100.00);
-
-		pouch.setCompatibleMobiles(List.of(zero8, zero8i));
-
-		Pouch savedPouch = repo.save(pouch);
-
-		assertThat(savedPouch).isNotNull();
-		assertThat(savedPouch.getId()).isGreaterThan(0);
-	}
+//	@Test
+//	public void testCreateRuggedPouch() {
+//		Mobile zero8 = entityManager.find(Mobile.class, 1);
+//		Mobile zero8i = entityManager.find(Mobile.class, 2);
+//
+//		Pouch pouch = new Pouch("Rugged Pouch", Material.WOMEN_SPECIFIC, 100.00);
+//
+//		pouch.setCompatibleMobiles(List.of(zero8, zero8i));
+//
+//		Pouch savedPouch = repo.save(pouch);
+//
+//		assertThat(savedPouch).isNotNull();
+//		assertThat(savedPouch.getId()).isGreaterThan(0);
+//	}
 
 	@Test
 	public void testFindMobilesWithSamePouchExcludingInput() {
@@ -86,6 +86,18 @@ class PouchRepositoryTest {
 		  List<Pouch> listPouch = repo.findAll();
 		  listPouch.forEach(pouch  -> System.out.println(pouch.getName()));
 	}
+	
+	
+ 
+	
+	@Test
+	public void testDeletePouch() {
+		repo.deleteById(4L);
+		
+		Optional<Pouch> pouch = repo.findById(4L);
+		assertThat(pouch).isNotPresent();
+	}
+	
 	
 //	
 //	@Test

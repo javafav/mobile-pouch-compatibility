@@ -1,5 +1,6 @@
 package com.sastaybrands.mobiles.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +19,28 @@ public class Pouch {
 
     private double price;
 
+    private String category; // Example: "Wallet Pouch", "Back Cover"
+    private String brand; // Example: "Samsung", "Apple"
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "pouch_mobile",  
+        name = "pouch_mobile",
         joinColumns = @JoinColumn(name = "pouch_id"),
         inverseJoinColumns = @JoinColumn(name = "mobile_id")
     )
+    @JsonIgnore // Prevents infinite loop in JSON serialization
     private List<Mobile> compatibleMobiles = new ArrayList<>();
 
     // Default constructor (required by JPA)
     public Pouch() {}
 
     // Constructor with parameters
-    public Pouch(String name, Material material, double price) {
+    public Pouch(String name, Material material, double price, String category, String brand) {
         this.name = name;
         this.material = material;
         this.price = price;
+        this.category = category;
+        this.brand = brand;
     }
 
     // Utility method to maintain bidirectional relationship
@@ -60,14 +67,18 @@ public class Pouch {
     public double getPrice() { return price; }
     public void setPrice(double price) { this.price = price; }
 
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+
     public List<Mobile> getCompatibleMobiles() { return compatibleMobiles; }
     public void setCompatibleMobiles(List<Mobile> compatibleMobiles) { this.compatibleMobiles = compatibleMobiles; }
 
-	@Override
-	public String toString() {
-		return "Pouch [name=" + name + ", material=" + material + ", price=" + price + "]";
-	}
-    
-    
-    
+    @Override
+    public String toString() {
+        return "Pouch [name=" + name + ", material=" + material + ", price=" + price +
+                ", category=" + category + ", brand=" + brand + "]";
+    }
 }

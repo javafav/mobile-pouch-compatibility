@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pouches Listing</title>
+    <style>
+        .container { width: 80%; margin: auto; }
+        .filter-form { margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Available Pouches</h2>
+
+        <!-- Filter Form -->
+        <form action="/pouches" method="get" class="filter-form">
+            <label>Material: <input type="text" name="material"></label>
+            <label>Category: <input type="text" name="category"></label>
+            <label>Brand: <input type="text" name="brand"></label>
+            <label>Min Price: <input type="number" name="minPrice" step="0.01"></label>
+            <label>Max Price: <input type="number" name="maxPrice" step="0.01"></label>
+            <button type="submit">Filter</button>
+        </form>
+
+        <!-- Display Pouches -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Material</th>
+                    <th>Price</th>
+                    <th>Compatible Mobiles</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pouch : ${pouches}">
+                    <td th:text="${pouch.name}"></td>
+                    <td th:text="${pouch.material}"></td>
+                    <td th:text="${pouch.price}"></td>
+                    <td>
+                        <span th:each="mobile : ${pouch.compatibleMobiles}" th:text="${mobile.name} + ' '"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
