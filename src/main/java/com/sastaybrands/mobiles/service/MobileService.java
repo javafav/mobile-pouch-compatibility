@@ -62,31 +62,28 @@ public class MobileService {
 	}
 
 	public String checkUnique(Long id, String name, String model) {
-		boolean isCreatingNew = (id == null || id == 0);
+	    boolean isCreatingNew = (id == null || id == 0);
 
-		Mobile mobileByName = repo.findByName(name);
+	    // Fetch both by name and model in a single step
+	    Mobile mobileByName = repo.findByName(name);
+	    Mobile mobileByModel = repo.findByModel(model);
 
-		if (isCreatingNew) {
-			if (mobileByName != null) {
-				return "DuplicateName";
-			} else {
-				Mobile mobileByModel = repo.findByModel(model);
-				if (mobileByModel != null) {
-					return "DuplicateModel";
-				}
-			}
-		} else {
-			if (mobileByName != null && mobileByName.getId() != id) {
-				return "DuplicateName";
-			}
+	    if (isCreatingNew) {
+	        if (mobileByName != null) {
+	            return "DuplicateName";
+	        }
+	        if (mobileByModel != null) {
+	            return "DuplicateModel";
+	        }
+	    } else {
+	        if (mobileByName != null && !mobileByName.getId().equals(id)) {
+	            return "DuplicateName";
+	        }
+	        if (mobileByModel != null && !mobileByModel.getId().equals(id)) {
+	            return "DuplicateModel";
+	        }
+	    }
 
-			Mobile mobileByModel = repo.findByModel(model);
-			if (mobileByModel != null && mobileByModel.getId() != id) {
-				return "DuplicateModel";
-			}
-
-		}
-
-		return "OK";
+	    return "OK";
 	}
 }
