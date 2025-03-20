@@ -7,16 +7,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sastaybrands.mobiles.service.MobileService;
 
-
 @RestController
 public class MobileRestController {
 
-	@Autowired private MobileService service;
+	@Autowired
+	private MobileService mobileService;
 	
+
 	@PostMapping("/mobiles/check_unique")
-	public String checkUnique(@RequestParam(name = "id", required = false) Long id,@RequestParam(name = "name") String name, @RequestParam(name = "model") String model) {
-		return service.checkUnique(id, name, model);
+	public String checkUnique(@RequestParam(name = "id", required = false) Long id,
+			@RequestParam(name = "name") String name, @RequestParam(name = "model") String model) {
+		return mobileService.checkUnique(id, name, model);
 	}
-	
+
+
 
 }

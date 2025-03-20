@@ -23,6 +23,7 @@ public class Mobile {
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
+    
 
     @ManyToMany(mappedBy = "compatibleMobiles")
     private List<Pouch> pouches = new ArrayList<>();

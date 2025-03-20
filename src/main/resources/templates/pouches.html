@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head
+	th:replace="fragments :: page_head('Pouches - MobileMatcher', 'none')"></head>
+
+<body>
+	<div class="container-fluid">
+		<div th:replace="navigation :: menu"></div>
+
+		<div>
+			<h2>Manage Pouches</h2>
+			<a th:href="@{/pouches/new}"
+				class="fa fa-folder-plus fa-2x icon-dark mr-3"></a>
+		</div>
+
+		<div th:replace="fragments :: search_form_and_message('/pouches')"></div>
+
+		<div class="full-details">
+			<table
+				class="table table-bordered table-striped table-hover table-responsive-md table-width">
+				<thead class="thead-dark">
+					<tr>
+						<th class="hideable-column">Pouch ID</th>
+						<th>Name</th>
+						<th>Compatible Mobiles</th>
+						<th>Compatible Models</th>
+						<th>Price</th>
+
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:each="pouch : ${listPouches}">
+						<tr>
+							<td class="hideable-column">[[${pouch.id}]]</td>
+							<td>[[${pouch.name}]]</td>
+
+							<td><th:block th:each="mobile : ${pouch.compatibleMobiles}">
+									<span class="badge badge-secondary">[[${mobile.name}]]</span>
+								</th:block></td>
+
+								<td><th:block th:each="mobile : ${pouch.compatibleMobiles}">
+									<span class="badge badge-info ">[[${mobile.model}]]</span>
+								</th:block></td>
+							<td>[[${pouch.price}]]</td>
+
+
+
+							<td>
+								<div
+									th:replace="fragments :: edit('pouch','/pouches/edit/' + ${pouch.id})"></div>
+								&nbsp;
+								<div
+									th:replace="fragments :: delete('pouch','/pouches/delete/' + ${pouch.id},${pouch.id},true)"></div>
+							</td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+		</div>
+
+		<div
+			th:replace="pagination_for_more_then_10page :: pagination('/pouches', 'pouch')"></div>
+		<div th:replace="modal_fragments :: confirm_modal"></div>
+		<div th:replace="fragments :: footer"></div>
+	</div>
+
+	<script type="text/javascript">
+		moduleURL = "[[@{/pouches}]]";
+		entityName = "pouches";
+	</script>
+	<script th:src="@{/js/common.js}"></script>
+	<script th:src="@{/js/common_list.js}"></script>
+</body>
+</html>

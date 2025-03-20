@@ -12,10 +12,14 @@ public class Pouch {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = true, length = 45, unique = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
     private Material material;
+    
+    @Column(nullable = true, length = 45, unique = false)
+    private String image;
 
     private double price;
 
@@ -58,10 +62,22 @@ public class Pouch {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
+    
+    
+    
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public Material getMaterial() { return material; }
+    
+    public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public Material getMaterial() { return material; }
     public void setMaterial(Material material) { this.material = material; }
 
     public double getPrice() { return price; }
@@ -81,4 +97,11 @@ public class Pouch {
         return "Pouch [name=" + name + ", material=" + material + ", price=" + price +
                 ", category=" + category + ", brand=" + brand + "]";
     }
+    
+    @Transient
+   	public String getImagePath() {
+   		if (this.id == null) return "/images/image-thumbnail.png";
+   		
+   		return "/pouch-photos/"  + this.image;		
+   	}
 }
