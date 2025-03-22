@@ -40,6 +40,10 @@ public class PouchService {
     }
 
     
+    public Pouch save(Pouch pouch) {
+		return repo.save(pouch);
+	}
+    
     
 //    public List<Pouch> getCompatiblePouches(String mobileModel) {
 //        return pouchRepository.findCompatiblePouchesByModel(mobileModel);

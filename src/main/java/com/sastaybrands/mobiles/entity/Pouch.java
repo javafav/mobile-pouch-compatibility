@@ -15,10 +15,9 @@ public class Pouch {
     @Column(nullable = true, length = 45, unique = false)
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    private Material material;
+  
     
-    @Column(nullable = true, length = 45, unique = false)
+    @Column(nullable = true, length = 64, unique = false)
     private String image;
 
     private double price;
@@ -39,9 +38,9 @@ public class Pouch {
     public Pouch() {}
 
     // Constructor with parameters
-    public Pouch(String name, Material material, double price, String category, String brand) {
+    public Pouch(String name, double price, String category, String brand) {
         this.name = name;
-        this.material = material;
+      
         this.price = price;
         this.category = category;
         this.brand = brand;
@@ -77,8 +76,7 @@ public class Pouch {
 		this.image = image;
 	}
 
-	public Material getMaterial() { return material; }
-    public void setMaterial(Material material) { this.material = material; }
+
 
     public double getPrice() { return price; }
     public void setPrice(double price) { this.price = price; }
@@ -94,7 +92,7 @@ public class Pouch {
 
     @Override
     public String toString() {
-        return "Pouch [name=" + name + ", material=" + material + ", price=" + price +
+        return "Pouch [name=" + name + ", price=" + price +
                 ", category=" + category + ", brand=" + brand + "]";
     }
     
