@@ -43,7 +43,7 @@ class PouchRepositoryTest {
 		pouch.addMobile(hot50i);
 		pouch.addMobile(smart9);
 
-		pouch.setMaterial(Material.LEATHER);
+	
 		pouch.setCompatibleMobiles(List.of(smart9, hot50i, go1));
 
 		pouch.setName("Leather Pouch");

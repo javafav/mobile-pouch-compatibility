@@ -1,5 +1,7 @@
 package com.sastaybrands.mobiles.repo;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,6 +25,9 @@ public interface MobileRepository extends JpaRepository<Mobile, Long> {
     
     @Query("SELECT m FROM Mobile m WHERE m.model = ?1")
    	public Mobile findByModel(String modelName);
+    
+    
+    List<Mobile> findAllById(Iterable<Long> ids);
 
 }
 

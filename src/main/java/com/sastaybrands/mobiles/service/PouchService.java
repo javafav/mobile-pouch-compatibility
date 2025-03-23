@@ -9,7 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sastaybrands.mobiles.entity.Mobile;
 import com.sastaybrands.mobiles.entity.Pouch;
+import com.sastaybrands.mobiles.repo.MobileRepository;
 import com.sastaybrands.mobiles.repo.PouchRepository;
 
 @Service
@@ -17,13 +19,14 @@ public class PouchService {
    
 	public static final int POUCH_PER_PAGE = 10;
 	
-	@Autowired private  PouchRepository repo;
+	@Autowired private  PouchRepository pouchRepo;
+	@Autowired private  MobileRepository mobileRepo;
 
     
     
     
     public List<Pouch> listAll() {
-		return repo.findAll();
+		return pouchRepo.findAll();
 	}
 
     public Page<Pouch> listByPage(int pageNum, String sortField, String sortDir, String keyword) {
@@ -33,17 +36,18 @@ public class PouchService {
         Pageable pageable = PageRequest.of(pageNum - 1, POUCH_PER_PAGE, sort);
 
         if (keyword != null) {
-            return repo.findAll(keyword, pageable);
+            return pouchRepo.findAll(keyword, pageable);
         }
 
-        return repo.findAll(pageable);
+        return pouchRepo.findAll(pageable);
     }
 
-    
-    public Pouch save(Pouch pouch) {
-		return repo.save(pouch);
-	}
-    
+    public Pouch save(Pouch pouch, List<Long> mobileIds) {
+        List<Mobile> selectedMobiles = mobileRepo.findAllById(mobileIds);
+       selectedMobiles.forEach(m -> m.getName());
+         pouch.setCompatibleMobiles(selectedMobiles); // Associate mobiles with pouch
+        return pouchRepo.save(pouch);
+    }
     
 //    public List<Pouch> getCompatiblePouches(String mobileModel) {
 //        return pouchRepository.findCompatiblePouchesByModel(mobileModel);

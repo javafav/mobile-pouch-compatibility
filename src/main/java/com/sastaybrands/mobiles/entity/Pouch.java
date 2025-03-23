@@ -29,9 +29,7 @@ public class Pouch {
     @JoinTable(
         name = "pouch_mobile",
         joinColumns = @JoinColumn(name = "pouch_id"),
-        inverseJoinColumns = @JoinColumn(name = "mobile_id")
-    )
-    @JsonIgnore // Prevents infinite loop in JSON serialization
+        inverseJoinColumns = @JoinColumn(name = "mobile_id") )
     private List<Mobile> compatibleMobiles = new ArrayList<>();
 
     // Default constructor (required by JPA)

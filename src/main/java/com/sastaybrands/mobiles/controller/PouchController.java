@@ -1,6 +1,7 @@
 package com.sastaybrands.mobiles.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.sastaybrands.mobiles.entity.Brand;
 import com.sastaybrands.mobiles.entity.Mobile;
 import com.sastaybrands.mobiles.entity.Pouch;
+import com.sastaybrands.mobiles.repo.MobileRepository;
 import com.sastaybrands.mobiles.service.BrandService;
 import com.sastaybrands.mobiles.service.MobileService;
 import com.sastaybrands.mobiles.service.PouchService;
@@ -35,6 +37,9 @@ public class PouchController {
 	private MobileService mobileService;
 	@Autowired
 	private BrandService brandService;
+	
+	@Autowired
+	private MobileRepository mobileRepo;
 
 	@GetMapping("/pouches")
 	public String listFirstPage(Model model) {
@@ -86,22 +91,30 @@ public class PouchController {
 	}
 
 	@PostMapping("/pouches/save")
-	public String savePouch(Pouch pouch, RedirectAttributes redirectAttributes,
-			@RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
+	public String savePouch(Pouch pouch, @RequestParam("mobileIds") List<Long> mobileIds,
+			RedirectAttributes redirectAttributes, @RequestParam("fileImage") MultipartFile multipartFile)
+			throws IOException {
 
+		if (pouch.getCompatibleMobiles() == null) {
+			pouch.setCompatibleMobiles(new ArrayList<>());
+		}
+		  
+		List<Mobile> listMobiles = mobileRepo.findAllById(mobileIds);
+		pouch.setCompatibleMobiles(listMobiles);
+		
 		if (!multipartFile.isEmpty()) {
 
 			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			pouch.setImage(fileName);
-List<Mobile> compatibleMobiles = pouch.getCompatibleMobiles();
-compatibleMobiles.forEach(System.out::println);	
-//
-//Pouch savedBrand = pouchService.save(pouch);
-//			String uploadDir = "./pouch-photos/";
-//
-//			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
+			pouch.getCompatibleMobiles().forEach(mobile -> System.out.println("Selected Mobile: " + mobile.getName()));
+
+			 Pouch savedPouch = pouchService.save(pouch, mobileIds);
+			 String uploadDir = "./pouch-photos/";
+
+			 FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 		} else {
-			pouchService.save(pouch);
+			pouchService.save(pouch, mobileIds);
 		}
 
 		redirectAttributes.addFlashAttribute("message", "The pouch has been saved successfully.");

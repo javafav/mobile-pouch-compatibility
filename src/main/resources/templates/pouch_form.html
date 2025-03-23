@@ -39,7 +39,7 @@
 					</div>
 				</div>
 
-		
+
 
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label">Price:</label>
@@ -49,39 +49,40 @@
 					</div>
 				</div>
 
-				
-					<div class="form-group row">
+
+				<div class="form-group row">
 					<label class="col-sm-4 col-form-label">Mobile Brands:</label>
 					<div class="col-sm-8">
-							<select class="form-control" th:field="*{brand}" required>
-								<th:block th:each="brand : ${listBrands}">
+						<select class="form-control" th:field="*{brand}" required>
+							<th:block th:each="brand : ${listBrands}">
 
-									<option th:value="${brand.id}">[[${brand.name}]]</option>	
-									</th:block>						
-							</select>
-				
+								<option th:value="${brand.id}">[[${brand.name}]]</option>
+							</th:block>
+						</select>
+
 					</div>
 				</div>
-				
+
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label">Select Compatible
 						Mobiles:</label>
 					<div class="col-sm-8">
-						<select class="form-control" th:field="*{compatibleMobiles}"
-							multiple style="resize: vertical; height: 200px" required>
+						<select class="form-control" name="mobileIds"  multiple id = "compatibleMobiles"
+							style="resize: vertical; height: 200px"  required>
 							<th:block th:each="mobile : ${listMobiles}">
-								<option th:value="${mobile.id}">[[${mobile.name}]]</option>
+								<option  th:value="${mobile.id}">[[${mobile.name}]]</option>
 							</th:block>
 						</select>
 						<div class="form-group row">
-							<label class="col-sm-12 col-form-label text-muted "><small>
-									Note -: Hold down the Ctrl (Windows) or Command (Mac) button to
-									select multiple options.</small></label>
-
-
+							<label class="col-sm-12 col-form-label text-muted"> <small>Hold
+									down the Ctrl (Windows) or Command (Mac) button to select
+									multiple options.</small>
+							</label>
 						</div>
 					</div>
 				</div>
+
+
 
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label">Chosen Mobiles:</label>
@@ -116,19 +117,18 @@
 
 			dropBrands.change(function() {
 				getMobiles();
-				
+
 				divCompatibleMobiles.empty();
-			//showChosenMobile();
-			
+				//showChosenMobile();
 
 			});
 			getMobiles();
-			
-			divCompatibleMobiles.change(function(){
+
+			divCompatibleMobiles.change(function() {
 				showChosenMobile();
 			});
 			showChosenMobile();
-			
+
 		});
 
 		function showChosenMobile() {
@@ -147,25 +147,23 @@
 							});
 
 		}
-		
-		
+
 		function getMobiles() {
 			brandId = dropBrands.val();
 			url = "/brands" + "/" + brandId + "/mobiles";
 
 			$.get(url, function(responseJSON) {
 				$.each(responseJSON, function(index, mobile) {
-					$("<option>").val(mobile.id).text(mobile.name).appendTo(divCompatibleMobiles);
+					$("<option>").val(mobile.id).text(mobile.name).appendTo(
+							divCompatibleMobiles);
 				});
 			});
 		}
-		
-		
-		
+
 		function checkUnique(form) {
-			
+
 			brandId = dropdownBrands.val();
-			
+
 			url = "[[@{/mobiles/check_unique}]]";
 			mobId = $("#id").val();
 			mobName = $("#name").val();
@@ -203,10 +201,6 @@
 					});
 			return false;
 		}
-		
-		
-		
-		
 	</script>
 	<script th:src="@{/js/common.js}"></script>
 	<script th:src="@{/js/common_form.js}"></script>
