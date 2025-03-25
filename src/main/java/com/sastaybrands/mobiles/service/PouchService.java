@@ -41,11 +41,13 @@ public class PouchService {
 
         return pouchRepo.findAll(pageable);
     }
-
+    
+  
     public Pouch save(Pouch pouch, List<Long> mobileIds) {
-        List<Mobile> selectedMobiles = mobileRepo.findAllById(mobileIds);
-       selectedMobiles.forEach(m -> m.getName());
-         pouch.setCompatibleMobiles(selectedMobiles); // Associate mobiles with pouch
+        if (mobileIds != null && !mobileIds.isEmpty()) {
+            List<Mobile> mobiles = mobileRepo.findAllById(mobileIds);
+            pouch.setCompatibleMobiles(mobiles);
+        }
         return pouchRepo.save(pouch);
     }
     

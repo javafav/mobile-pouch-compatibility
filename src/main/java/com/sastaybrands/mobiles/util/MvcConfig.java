@@ -23,12 +23,22 @@ public class MvcConfig implements WebMvcConfigurer {
 	
 
 		
-		String brandLogosDirName = "./brand-logos";
+		String brandLogosDirName = "brand-logos";
 		Path brandLogosDir = Paths.get(brandLogosDirName);
 		
 		String brandLogosPath = brandLogosDir.toFile().getAbsolutePath();
 		
-		registry.addResourceHandler("/brand-logos/**")
-			.addResourceLocations("file:/" + brandLogosPath + "/");		
+		 registry.addResourceHandler("/" + brandLogosDirName + "/**")
+			.addResourceLocations("file:/" + brandLogosPath + "/");	
+		
+		
+		
+		String pouchImageDirName = "pouch-photos";
+		Path pouchImageDir = Paths.get(pouchImageDirName);
+		
+		String pouchImagePath = pouchImageDir.toFile().getAbsolutePath();
+		
+		 registry.addResourceHandler("/" + pouchImageDirName + "/**")
+			.addResourceLocations("file:/" + pouchImagePath + "/");	
 	}
 }

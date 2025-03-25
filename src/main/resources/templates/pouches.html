@@ -22,6 +22,7 @@
 					<tr>
 						<th class="hideable-column">Pouch ID</th>
 						<th>Name</th>
+						<th>Image</th>
 						<th>Compatible Mobiles</th>
 						<th>Compatible Models</th>
 						<th>Price</th>
@@ -34,7 +35,8 @@
 						<tr>
 							<td class="hideable-column">[[${pouch.id}]]</td>
 							<td>[[${pouch.name}]]</td>
-
+                            <td><img th:src="@{${pouch.imagePath}}" class="img-fluid"
+								style="width: 100px; height: auto;"></td>
 							<td><th:block th:each="mobile : ${pouch.compatibleMobiles}">
 									<span class="badge badge-secondary">[[${mobile.name}]]</span>
 								</th:block></td>

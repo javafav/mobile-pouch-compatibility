@@ -37,7 +37,7 @@ public class PouchController {
 	private MobileService mobileService;
 	@Autowired
 	private BrandService brandService;
-	
+
 	@Autowired
 	private MobileRepository mobileRepo;
 
@@ -91,28 +91,17 @@ public class PouchController {
 	}
 
 	@PostMapping("/pouches/save")
-	public String savePouch(Pouch pouch, @RequestParam("mobileIds") List<Long> mobileIds,
-			RedirectAttributes redirectAttributes, @RequestParam("fileImage") MultipartFile multipartFile)
-			throws IOException {
+	public String savePouch(Pouch pouch, RedirectAttributes redirectAttributes,
+			@RequestParam("fileImage") MultipartFile multipartFile,
+			@RequestParam(value = "compatibleMobiles", required = false) List<Long> mobileIds) throws IOException {
 
-		if (pouch.getCompatibleMobiles() == null) {
-			pouch.setCompatibleMobiles(new ArrayList<>());
-		}
-		  
-		List<Mobile> listMobiles = mobileRepo.findAllById(mobileIds);
-		pouch.setCompatibleMobiles(listMobiles);
-		
 		if (!multipartFile.isEmpty()) {
-
 			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			pouch.setImage(fileName);
+			String uploadDir = "./pouch-photos/";
+			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+			 pouchService.save(pouch, mobileIds);
 
-			pouch.getCompatibleMobiles().forEach(mobile -> System.out.println("Selected Mobile: " + mobile.getName()));
-
-			 Pouch savedPouch = pouchService.save(pouch, mobileIds);
-			 String uploadDir = "./pouch-photos/";
-
-			 FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 		} else {
 			pouchService.save(pouch, mobileIds);
 		}

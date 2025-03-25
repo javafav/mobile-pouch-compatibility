@@ -86,4 +86,9 @@ public class MobileService {
 
 	    return "OK";
 	}
+	
+	  public List<Mobile> findMobilesByIds(List<Long> mobileIds) {
+	        return repo.findAllById(mobileIds);
+	    }
+
 }
