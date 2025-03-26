@@ -21,6 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.sastaybrands.mobiles.entity.Brand;
 import com.sastaybrands.mobiles.entity.Mobile;
 import com.sastaybrands.mobiles.entity.Pouch;
+import com.sastaybrands.mobiles.exception.MobileNotFoundException;
+import com.sastaybrands.mobiles.exception.PouchNotFoundException;
 import com.sastaybrands.mobiles.repo.MobileRepository;
 import com.sastaybrands.mobiles.service.BrandService;
 import com.sastaybrands.mobiles.service.MobileService;
@@ -37,9 +39,6 @@ public class PouchController {
 	private MobileService mobileService;
 	@Autowired
 	private BrandService brandService;
-
-	@Autowired
-	private MobileRepository mobileRepo;
 
 	@GetMapping("/pouches")
 	public String listFirstPage(Model model) {
@@ -82,7 +81,7 @@ public class PouchController {
 		Pouch pouch = new Pouch();
 
 		List<Brand> listBrands = brandService.listAll();
-
+		pouch.setPrice(300);
 		model.addAttribute("pouch", pouch);
 		model.addAttribute("listBrands", listBrands);
 		model.addAttribute("pageTitle", "Create New Pouch");
@@ -100,7 +99,7 @@ public class PouchController {
 			pouch.setImage(fileName);
 			String uploadDir = "./pouch-photos/";
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-			 pouchService.save(pouch, mobileIds);
+			pouchService.save(pouch, mobileIds);
 
 		} else {
 			pouchService.save(pouch, mobileIds);
@@ -108,6 +107,28 @@ public class PouchController {
 
 		redirectAttributes.addFlashAttribute("message", "The pouch has been saved successfully.");
 		return "redirect:/pouches";
+	}
+
+	@GetMapping("/pouches/edit/{id}")
+	public String editBrand(@PathVariable(name = "id") Long id, Model model, RedirectAttributes ra) {
+		try {
+			Pouch pouch = pouchService.get(id);
+			List<Mobile> existingMobilesInDB = pouch.getCompatibleMobiles();
+			List<Brand> listBrands = brandService.listAll();
+			List<Mobile> listMobiles = mobileService.listAll(); // Get all mobiles
+
+			model.addAttribute("pouch", pouch);
+			model.addAttribute("listBrands", listBrands);
+			model.addAttribute("existingMobilesInDB", existingMobilesInDB);
+			model.addAttribute("listMobiles", listMobiles);
+
+			model.addAttribute("pageTitle", "Edit Pouch (ID: " + id + ")");
+
+			return "pouch_form";
+		} catch (PouchNotFoundException ex) {
+			ra.addFlashAttribute("message", ex.getMessage());
+			return "redirect:/pouches";
+		}
 	}
 
 //   @GetMapping("/pouches1")

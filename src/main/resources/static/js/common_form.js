@@ -33,7 +33,7 @@ function showModalDialog(title, message) {
 	$("#modalDialog").modal();
 }
 
-function showErrorModal(message) {
+function showErrorDialog(message) {
 	showModalDialog("Error", message);
 }
 

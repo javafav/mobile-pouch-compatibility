@@ -38,7 +38,7 @@ public class Pouch {
     // Constructor with parameters
     public Pouch(String name, double price, String category, String brand) {
         this.name = name;
-      
+     
         this.price = price;
         this.category = category;
         this.brand = brand;

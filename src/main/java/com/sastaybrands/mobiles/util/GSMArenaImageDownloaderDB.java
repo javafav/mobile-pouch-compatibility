@@ -7,8 +7,7 @@ import org.jsoup.select.Elements;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.*;
@@ -20,8 +19,8 @@ public class GSMArenaImageDownloaderDB {
     private static final String DB_USER = "devuser";
     private static final String DB_PASSWORD = "Format#1";
     private static final String SAVE_DIRECTORY = "images/";
+    private static final String FAILED_DOWNLOADS_FILE = "failed_downloads.txt";
 
-    // User-Agent list to avoid detection
     private static final String[] USER_AGENTS = {
     		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
@@ -37,20 +36,25 @@ public class GSMArenaImageDownloaderDB {
 
     public static void main(String[] args) {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement statement = connection.prepareStatement("SELECT name FROM mobiles WHERE id <= 50 ORDER BY id DESC");
+             PreparedStatement statement = connection.prepareStatement("SELECT id, name FROM mobiles WHERE id >= 260");
              ResultSet resultSet = statement.executeQuery()) {
 
             Random random = new Random();
 
             while (resultSet.next()) {
+                int mobileId = resultSet.getInt("id");
                 String mobileName = resultSet.getString("name");
 
                 try {
-                    downloadImage(mobileName, SAVE_DIRECTORY);
-                    int delay = random.nextInt(1000) + 20000; // Wait 10-15 seconds
+                    boolean success = downloadImage(mobileId, mobileName, SAVE_DIRECTORY);
+                    if (!success) {
+                        logFailedDownload(mobileId, mobileName);
+                    }
+                    int delay = random.nextInt(1000) + 2000;
                     Thread.sleep(delay);
                 } catch (IOException | InterruptedException e) {
                     System.err.println("Error downloading image for " + mobileName + ": " + e.getMessage());
+                    logFailedDownload(mobileId, mobileName);
                 }
             }
         } catch (SQLException e) {
@@ -58,27 +62,25 @@ public class GSMArenaImageDownloaderDB {
         }
     }
 
-    public static void downloadImage(String mobileName, String saveDirectory) throws IOException, InterruptedException {
+    public static boolean downloadImage(int mobileId, String mobileName, String saveDirectory) throws IOException, InterruptedException {
         Random random = new Random();
         String encodedMobileName = URLEncoder.encode(mobileName, "UTF-8");
         String searchUrl = "https://www.gsmarena.com/results.php3?sQuickSearch=yes&sName=" + encodedMobileName;
         int retryCount = 0;
         int delay = 5000;
 
-        while (retryCount < 5) { // Maximum retries
+        while (retryCount < 5) {
             try {
-                // Select a random User-Agent
                 String userAgent = USER_AGENTS[random.nextInt(USER_AGENTS.length)];
-
                 Document doc = Jsoup.connect(searchUrl)
                         .userAgent(userAgent)
-                        .timeout(15000) // 15 seconds timeout
+                        .timeout(15000)
                         .get();
 
                 Elements phoneLinks = doc.select(".makers li a");
                 if (phoneLinks.isEmpty()) {
                     System.err.println("No results found for " + mobileName);
-                    return;
+                    return false;
                 }
 
                 String phoneUrl = "https://www.gsmarena.com/" + phoneLinks.first().attr("href");
@@ -88,14 +90,13 @@ public class GSMArenaImageDownloaderDB {
                         .get();
 
                 Element imageElement = phoneDoc.select(".specs-photo-main a img").first();
-
                 if (imageElement == null) {
                     System.err.println("Image not found for " + mobileName);
-                    return;
+                    return false;
                 }
 
                 String imageUrl = imageElement.attr("src");
-                String imageName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+                String imageName = "mobile_" + mobileId + ".jpg";
                 URL url = new URL(imageUrl);
                 BufferedImage image = ImageIO.read(url);
 
@@ -108,18 +109,28 @@ public class GSMArenaImageDownloaderDB {
                 ImageIO.write(image, "jpg", outputFile);
 
                 System.out.println("Downloaded image for: " + mobileName);
-                return;
+                return true;
             } catch (IOException e) {
                 if (e.getMessage().contains("429") || e.getMessage().contains("Too Many Requests")) {
                     System.out.println("Rate limited, retrying after " + (delay / 1000) + " seconds...");
                     Thread.sleep(delay);
-                    delay *= 2; // Exponential backoff (double the wait time)
+                    delay *= 2;
                     retryCount++;
                 } else {
-                    throw e; // Rethrow other IOExceptions
+                    throw e;
                 }
             }
         }
         System.err.println("Failed to download image after multiple retries: " + mobileName);
+        return false;
+    }
+
+    private static void logFailedDownload(int mobileId, String mobileName) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FAILED_DOWNLOADS_FILE, true))) {
+            writer.write("Mobile ID: " + mobileId + " | Name: " + mobileName);
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Error writing to failed downloads log: " + e.getMessage());
+        }
     }
 }
