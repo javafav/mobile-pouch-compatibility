@@ -96,65 +96,61 @@
         <div th:replace="fragments :: footer" class="mt-auto"></div>
     </div>
 
-    <script type="text/javascript">
-        moduleURL = "[[@{/pouches}]]";
-        MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
-
-        $(document).ready(function () {
-            let dropBrands = $("#brand");
-            let divCompatibleMobiles = $("#compatibleMobiles");
-            let divChosenMobiles = $("#chosenMobiles");
-
-            // Fetch mobiles when brand is changed
-            dropBrands.change(function () {
-                getMobiles();
-            });
-
-            // Show selected mobiles dynamically
-            divCompatibleMobiles.change(function () {
-                showChosenMobile();
-            });
-
-            // Show selected mobiles on page load (for edit case)
+   <script type="text/javascript">
+    moduleURL = "[[@{/pouches}]]";
+    MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
+    $(document).ready(function () {
+        let dropBrands = $("#brand");
+        let divCompatibleMobiles = $("#compatibleMobiles");
+        let divChosenMobiles = $("#chosenMobiles");
+        // Fetch mobiles when brand is changed
+        dropBrands.change(function () {
+            getMobiles();
+        });
+        // Show selected mobiles dynamically
+        divCompatibleMobiles.change(function () {
             showChosenMobile();
         });
-
-        function showChosenMobile() {
-            let divChosenMobiles = $("#chosenMobiles");
-            divChosenMobiles.empty(); // Clear previous selected mobiles
-
-            $("#compatibleMobiles option:selected").each(function () {
-                let selectedMobile = $(this);
-                let mobName = selectedMobile.text().replace(/-/g, '');
-
-                divChosenMobiles.append(
-                    "<span class='badge badge-secondary m-1'>" + mobName + "</span>"
-                );
-            });
-        }
-        
-        
-        function getMobiles() {
-            let brandId = $("#brand").val();
-            let url = "/brands/" + brandId + "/mobiles";
-            let divCompatibleMobiles = $("#compatibleMobiles");
-
-            divCompatibleMobiles.empty(); // Clear previous mobiles
-
-            $.get(url, function (responseJSON) {
-                if (responseJSON.length === 0) {
-                    $("<option>").val("").text("No mobiles available").prop("disabled", true).appendTo(divCompatibleMobiles);
-                } else {
-                    $.each(responseJSON, function (index, mobile) {
-                        $("<option>").val(mobile.id).text(mobile.name).appendTo(divCompatibleMobiles);
-                    });
-                }
-            }).fail(function () {
-                showErrorDialog("Error fetching mobiles for brand: " + brandId);
-            });
-        }
-    </script>
-    <script th:src="@{/js/common.js}"></script>
-    <script th:src="@{/js/common_form.js}"></script>
+        // Show selected mobiles on page load (for edit case)
+        showChosenMobile();
+    });
+    function showChosenMobile() {
+        let divChosenMobiles = $("#chosenMobiles");
+        divChosenMobiles.empty(); // Clear previous selected mobiles
+        $("#compatibleMobiles option:selected").each(function () {
+            let selectedMobile = $(this);
+            let mobName = selectedMobile.text().replace(/-/g, '');
+            divChosenMobiles.append(
+                "<span class='badge badge-secondary m-1'>" + mobName + "</span>"
+            );
+        });
+    }
+    function getMobiles() {
+        let brandId = $("#brand").val();
+        let url = "/brands/" + brandId + "/mobiles";
+        let divCompatibleMobiles = $("#compatibleMobiles");
+        // Store currently selected mobiles
+        let selectedMobiles = $("#compatibleMobiles").val() || [];
+        divCompatibleMobiles.empty(); // Clear previous mobiles
+        $.get(url, function (responseJSON) {
+            if (responseJSON.length === 0) {
+                $("<option>").val("").text("No mobiles available").prop("disabled", true).appendTo(divCompatibleMobiles);
+            } else {
+                $.each(responseJSON, function (index, mobile) {
+                    $("<option>").val(mobile.id).text(mobile.name).appendTo(divCompatibleMobiles);
+                });
+                // Restore selected mobiles
+                selectedMobiles.forEach(function (mobileId) {
+                    $("#compatibleMobiles option[value='" + mobileId + "']").prop("selected", true);
+                });
+                showChosenMobile();
+            }
+        }).fail(function () {
+            showErrorDialog("Error fetching mobiles for brand: " + brandId);
+        });
+    }
+</script>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/common_form.js}"></script>
 </body>
 </html>
