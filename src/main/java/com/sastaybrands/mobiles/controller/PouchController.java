@@ -119,6 +119,7 @@ public class PouchController {
 
 			model.addAttribute("pouch", pouch);
 			model.addAttribute("listBrands", listBrands);
+			
 			model.addAttribute("existingMobilesInDB", existingMobilesInDB);
 			model.addAttribute("listMobiles", listMobiles);
 

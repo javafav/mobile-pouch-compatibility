@@ -26,6 +26,8 @@ public interface MobileRepository extends JpaRepository<Mobile, Long> {
     @Query("SELECT m FROM Mobile m WHERE m.model = ?1")
    	public Mobile findByModel(String modelName);
     
+    @Query("SELECT m FROM Mobile m ORDER BY m.name ASC")
+    public List<Mobile> findAll();
     
     List<Mobile> findAllById(Iterable<Long> ids);
 
