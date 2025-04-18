@@ -1,0 +1,13 @@
+package com.mobilematching;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MobileMatchingComoonApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(MobileMatchingComoonApplication.class, args);
+	}
+
+}

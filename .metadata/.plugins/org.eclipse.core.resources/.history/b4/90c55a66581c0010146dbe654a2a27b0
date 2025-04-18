@@ -1,0 +1,5 @@
+spring.application.name=MobileMatchingAdmin
+
+
+server.servlet.context-path=/MobileMatchingAdmin
+server.port=8080
