@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Pouch</title>
+    <link href="/static/css/output.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h2>Add a New Pouch</h2>
+    <form th:action="@{/pouches/save}" method="post" th:object="${pouch}">
+        <div class="mb-3">
+            <label class="form-label">Pouch Name:</label>
+            <input type="text" th:field="*{name}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Material:</label>
+            <input type="text" th:field="*{material}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Price:</label>
+            <input type="number" step="0.01" th:field="*{price}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Compatible Mobiles:</label>
+            <select multiple name="mobileIds" class="form-control">
+                <option th:each="mobile : ${mobiles}" th:value="${mobile.id}" th:text="${mobile.name}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Pouch</button>
+    </form>
+</div>
+</body>
+</html>

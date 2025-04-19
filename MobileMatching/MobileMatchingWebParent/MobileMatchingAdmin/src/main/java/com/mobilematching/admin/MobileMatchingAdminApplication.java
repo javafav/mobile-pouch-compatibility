@@ -2,8 +2,12 @@ package com.mobilematching.admin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+@SpringBootApplication(scanBasePackages = "com.mobilematching")
+@EntityScan(basePackages = "com.mobilematching.entity")
 
-@SpringBootApplication
+
 public class MobileMatchingAdminApplication {
 
 	public static void main(String[] args) {
