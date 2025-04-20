@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;MobileMatchingAdmin/src/main/resources/templates/index.html&apos; to &apos;index11.html&apos;" description="Rename resource &apos;index.html&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/resources/templates/index.html" name="index11.html" stamp="1745155185637" updateReferences="true"/>
+</session>

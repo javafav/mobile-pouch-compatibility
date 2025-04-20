@@ -19,6 +19,8 @@ public class Mobile {
     
     @Column(nullable = false, length = 64, unique = true)
     private String photo;
+    
+    private boolean enabled;
 
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
@@ -48,8 +50,18 @@ public class Mobile {
     }
 
     // Getters and Setters
+    
+    
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public void setId(Long id) { this.id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

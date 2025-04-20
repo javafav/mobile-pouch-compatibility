@@ -20,6 +20,7 @@ import com.mobilematching.admin.brands.BrandService;
 import com.mobilematching.admin.util.FileUploadUtil;
 import com.mobilematching.entity.Brand;
 import com.mobilematching.entity.Mobile;
+import com.mobilematching.exception.BrandNotFoundException;
 import com.mobilematching.exception.MobileNotFoundException;
 
 
@@ -138,5 +139,22 @@ public class MobileController {
 
 	        return "redirect:/mobiles";
 	    }
+	   
+		@GetMapping("/mobiles/{id}/enabled/{status}")
+		public String updateBrandEnabledStatus(@PathVariable("id") Long id, @PathVariable("status") boolean status,
+				RedirectAttributes redirectAttributes) {
+			try {
+				mobileService.updateMobileEnableStatus(id, status);
+				String messageEnabledOrDisabled = status == true ? "enabled" : "disabled";
+				redirectAttributes.addFlashAttribute("message",
+						"The mobile wih (ID " + id + ") " + messageEnabledOrDisabled + " successfuly!");
+				return "redirect:/mobiles";
+			} catch (BrandNotFoundException e) {
+				redirectAttributes.addFlashAttribute("message", e.getMessage());
+				return "redirect:/mobiles";
+
+			}
+
+		}
 
 }

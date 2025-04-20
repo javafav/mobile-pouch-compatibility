@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Mobiles - MobileMatcher', 'none')"></head>
+
+<body>
+	<div class="container-fluid">
+		<div th:replace="navigation :: menu"></div>
+
+		<div>
+			<h2>Manage Mobiles</h2>
+
+			<a th:href="@{/mobiles/new}"
+				class="fa fa-folder-plus fa-2x icon-dark mr-3"></a><a
+				th:href="@{/brands/export/csv}"
+				class="fa fa-file-csv fa-2x icon-dark mr-2"></a>
+		</div>
+
+		
+		<div th:replace="fragments :: search_form_and_message('/mobiles')"></div>
+
+
+		<div class="full-details">
+
+			<table
+				class="table table-bordered table-striped table-hover table-responsive-md table-width">
+				<thead class="thead-dark">
+
+					<tr>
+
+						<th class="hideable-column">Mobile ID</th>
+						<th>Photo</th>
+						<th>Brand</th>
+						<th
+							th:replace="fragments :: column_link('/mobiles', 'name', 'Mobile Name', 'none')" />
+						
+						<th>Model Name</th>
+						<th>Status</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody class="p-5">
+					<th:block th:each="mobile : ${listMobiles}">
+						<tr>
+							<td class="hideable-column">[[${mobile.id}]]</td>
+							<td><img th:src="@{${mobile.photoPath}}" class="img-fluid"
+								style="width: 120px; height: auto;"></td>
+							<td>[[${mobile.brand.name}]]</td>
+							<td>[[${mobile.name}]]</td>
+							<td>[[${mobile.model}]]</td>
+								<td>
+							<div th:replace="fragments :: status(${mobile.enabled}, 'mobile', '/mobiles/' + ${mobile.id})"></div>
+							</td>
+							<td>
+								<div
+									th:replace="fragments :: edit('moile','/mobiles/edit/' + ${mobile.id})"></div>
+								<span class="medium-sacreen-mobile"></span> &nbsp;
+								<div
+									th:replace="fragments :: delete('mobile','/mobiles/delete/' + ${mobile.id},${mobile.id},true)"></div>
+
+							</td>
+
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+		</div>
+
+
+		<div class="less-details">
+
+			<div th:each="mobile : ${listMobiles}" class="row m-1">
+
+				<div class="col-4">
+					<img th:src="@{${mobile.photoPath}}" class="img-fluid mt-2"
+						style="width: 100px; height: auto;">
+
+				  </div>
+
+				<div class="col-8">
+					<div class="mb-3 font-weight-bold">[[${mobile.name}]]</div>
+					<div
+						th:replace="fragments :: edit('mobile','/mobiles/edit/' + ${mobile.id})"></div>
+
+					&nbsp;
+					<div
+						th:replace="fragments :: delete('mobile','/mobiles/delete/' + ${mobile.id},${mobile.id},true)"></div>
+
+					<hr>
+				</div>
+
+
+
+			</div>
+
+
+
+
+
+
+		</div>
+
+
+
+		
+		<div th:replace="pagination_for_more_then_10page :: pagination('/mobiles', 'mobile')"></div>
+
+		<div th:replace="modal_fragments :: confirm_modal"></div>
+		<div th:replace="fragments :: footer"></div>
+
+
+
+
+</div>
+
+	<script type="text/javascript">
+	moduleURL = "[[@{/mobiles}]]";
+			entityName = "mobiles";
+
+		</script>
+		<script th:src="@{/js/common.js}"></script>
+		<script th:src="@{/js/common_list.js}"></script>
+	
+</body>
+</html>

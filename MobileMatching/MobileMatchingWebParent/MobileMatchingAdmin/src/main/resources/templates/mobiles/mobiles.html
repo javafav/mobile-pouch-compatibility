@@ -34,6 +34,7 @@
 							th:replace="fragments :: column_link('/mobiles', 'name', 'Mobile Name', 'none')" />
 						
 						<th>Model Name</th>
+						<th>Status</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -46,6 +47,9 @@
 							<td>[[${mobile.brand.name}]]</td>
 							<td>[[${mobile.name}]]</td>
 							<td>[[${mobile.model}]]</td>
+								<td>
+							<div th:replace="fragments :: status(${mobile.enabled}, 'mobile', '/mobiles/' + ${mobile.id})"></div>
+							</td>
 							<td>
 								<div
 									th:replace="fragments :: edit('moile','/mobiles/edit/' + ${mobile.id})"></div>
@@ -74,6 +78,7 @@
 
 				<div class="col-8">
 					<div class="mb-3 font-weight-bold">[[${mobile.name}]]</div>
+					<div th:replace="fragments :: status(${mobile.enabled}, 'mobile', '/mobiles/' + ${mobile.id})"></div>
 					<div
 						th:replace="fragments :: edit('mobile','/mobiles/edit/' + ${mobile.id})"></div>
 

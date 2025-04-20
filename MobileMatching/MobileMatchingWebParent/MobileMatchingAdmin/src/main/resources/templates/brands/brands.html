@@ -31,6 +31,7 @@
 						<th>Logo</th>
 						<th
 							th:replace="fragments :: column_link('/brands', 'name', 'Brand Name', 'none')" />
+							<th>Status</th>
 						
 						<th>Actions</th>
 					</tr>
@@ -42,7 +43,9 @@
 							<td><img th:src="@{${brand.logoPath}}" class="img-fluid"
 								style="width: 100px; height: auto;"></td>
 							<td>[[${brand.name}]]</td>
-							
+							<td>
+							<div th:replace="fragments :: status(${brand.enabled}, 'brand', '/brands/' + ${brand.id})"></div>
+							</td>
 							<td>
 								<div
 									th:replace="fragments :: edit('brand','/brands/edit/' + ${brand.id})"></div>

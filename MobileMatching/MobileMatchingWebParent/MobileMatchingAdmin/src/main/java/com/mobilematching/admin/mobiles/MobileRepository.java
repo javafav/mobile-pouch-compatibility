@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.mobilematching.entity.Mobile;
@@ -13,7 +14,10 @@ import com.mobilematching.entity.Mobile;
 public interface MobileRepository extends JpaRepository<Mobile, Long> {
   //  List<Mobile> findByModel(String model);
 
-
+	@Query("UPDATE Mobile m SET  m.enabled = ?2 WHERE m.id = ?1 ")
+	@Modifying
+	public void updateEnabledStatus(Long id, boolean status);
+	
     @Query("SELECT COUNT(m) FROM Mobile m WHERE m.id = ?1")
     public Long count(Long id);
 	

@@ -4,13 +4,15 @@
     <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.config.EnableJpaRepositories"/>
     <fullyQualifiedTypeName name="com.mobilematching.admin.mobiles.MobileDTO"/>
     <fullyQualifiedTypeName name="com.mobilematching.exception.BrandNotFoundRestException"/>
-    <fullyQualifiedTypeName name="com.mobilematching.exception.BrandNotFoundException"/>
     <fullyQualifiedTypeName name="com.mobilematching.admin.mobiles.MobileRepository"/>
     <fullyQualifiedTypeName name="com.mobilematching.admin.mobiles.MobileService"/>
     <fullyQualifiedTypeName name="com.mobilematching.admin.brands.BrandService"/>
     <fullyQualifiedTypeName name="com.mobilematching.entity.Pouch"/>
-    <fullyQualifiedTypeName name="com.mobilematching.entity.Brand"/>
     <fullyQualifiedTypeName name="com.mobilematching.admin.util.FileUploadUtil"/>
     <fullyQualifiedTypeName name="com.mobilematching.entity.Mobile"/>
     <fullyQualifiedTypeName name="com.mobilematching.exception.PouchNotFoundException"/>
+    <fullyQualifiedTypeName name="com.mobilematching.entity.Brand"/>
+    <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Modifying"/>
+    <fullyQualifiedTypeName name="com.mobilematching.exception.BrandNotFoundException"/>
+    <fullyQualifiedTypeName name="jakarta.transaction.Transactional"/>
 </qualifiedTypeNameHistroy>

@@ -17,6 +17,8 @@ public class Brand {
 
     @Column(nullable = false, length = 128)
     private String logo;
+    
+    private boolean enabled;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Mobile> mobiles = new ArrayList<>();
@@ -37,8 +39,17 @@ public class Brand {
         this.name = name;
         this.logo = "default-logo.png";
     }
+ 
+    
+    public boolean isEnabled() {
+		return enabled;
+	}
 
-    public Long getId() { return id; }
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public String getName() { return name; }

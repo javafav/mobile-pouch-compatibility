@@ -11,10 +11,13 @@ import org.springframework.stereotype.Service;
 import com.mobilematching.entity.Brand;
 import com.mobilematching.exception.BrandNotFoundException;
 
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@Transactional
 public class BrandService {
 
 
@@ -81,4 +84,16 @@ public class BrandService {
 
         return "OK";
     }
+    
+	public void updateBrandEnableStatus(Long brandId, boolean status) throws BrandNotFoundException {
+		try {
+			Brand brand = repo.findById(brandId).get();
+			if (brand != null) {
+				repo.updateEnabledStatus(brandId, status);
+			}
+		} catch (NoSuchElementException ex) {
+			throw new BrandNotFoundException("Brand not found with given ID " + brandId);
+		}
+
+	}
 }

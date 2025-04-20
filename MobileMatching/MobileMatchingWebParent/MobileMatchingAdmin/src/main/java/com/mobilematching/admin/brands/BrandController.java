@@ -69,7 +69,9 @@ public class BrandController {
 
     @GetMapping("/brands/new")
     public String newBrand(Model model) {
-        model.addAttribute("brand", new Brand());
+        Brand brand = new Brand();
+        brand.setEnabled(true);
+    	model.addAttribute("brand", brand);
         model.addAttribute("pageTitle", "Create New Brand");
 
         return "brands/brand_form";
@@ -131,4 +133,22 @@ public class BrandController {
 
         return "redirect:/brands";
     }
+    
+
+	@GetMapping("/brands/{id}/enabled/{status}")
+	public String updateBrandEnabledStatus(@PathVariable("id") Long id, @PathVariable("status") boolean status,
+			RedirectAttributes redirectAttributes) {
+		try {
+			brandService.updateBrandEnableStatus(id, status);
+			String messageEnabledOrDisabled = status == true ? "enabled" : "disabled";
+			redirectAttributes.addFlashAttribute("message",
+					"The brand wih (ID " + id + ") " + messageEnabledOrDisabled + " successfuly!");
+			return "redirect:/brands";
+		} catch (BrandNotFoundException e) {
+			redirectAttributes.addFlashAttribute("message", e.getMessage());
+			return "redirect:/brands";
+
+		}
+
+	}
 }

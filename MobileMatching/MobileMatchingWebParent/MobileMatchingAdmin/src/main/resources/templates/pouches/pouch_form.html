@@ -187,8 +187,8 @@ $(document).ready(function() {
     
     function getMobiles() {
         var brandId = dropBrands.val();
-        
-        var url = "[[@{'/brands/' + brandId + '/mobiles'}]]";
+       
+        var url = "[[@{/brands/}]]"  + brandId + "/mobiles";
         
         $.get(
             url,

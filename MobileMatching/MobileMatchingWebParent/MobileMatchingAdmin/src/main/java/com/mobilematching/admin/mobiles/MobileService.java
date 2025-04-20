@@ -10,12 +10,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.mobilematching.entity.Brand;
 import com.mobilematching.entity.Mobile;
+import com.mobilematching.exception.BrandNotFoundException;
 import com.mobilematching.exception.MobileNotFoundException;
+
+import jakarta.transaction.Transactional;
 
 
 
 @Service
+@Transactional
 public class MobileService {
 
 	public static final int MOBILES_PER_PAGE = 10;
@@ -91,5 +96,17 @@ public class MobileService {
 	  public List<Mobile> findMobilesByIds(List<Long> mobileIds) {
 	        return repo.findAllById(mobileIds);
 	    }
+	  
+	  public void updateMobileEnableStatus(Long mobileId, boolean status) throws BrandNotFoundException {
+			try {
+				Mobile mobile = repo.findById(mobileId).get();
+				if (mobile != null) {
+					repo.updateEnabledStatus(mobileId, status);
+				}
+			} catch (NoSuchElementException ex) {
+				throw new BrandNotFoundException("Mobile not found with given ID " + mobileId);
+			}
+
+		}
 
 }
