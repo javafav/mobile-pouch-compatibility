@@ -71,7 +71,7 @@ public class MobileController {
 	@GetMapping("/mobiles/new")
 	public String newMobile(Model model) {
 		Mobile mobile = new Mobile();
-       mobile.setEnabled(true);
+
 		List<Brand> listBrands = brandService.listAll();
 
 		model.addAttribute("mobile", mobile);
