@@ -14,7 +14,7 @@ public class Mobile {
     @Column(nullable = false, length = 64, unique = true)
     private String name;
    
-    @Column(nullable = false, length = 64, unique = true)
+    @Column(nullable = false, length = 128, unique = true)
     private String model;
     
     @Column(nullable = false, length = 64, unique = true)

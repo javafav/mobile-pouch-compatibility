@@ -42,6 +42,7 @@ public class BrandRestController {
 				mobileList.add(mobileDTO);
 
 			}
+			mobileList.sort((o1, o2) -> o1.getName().compareTo(o2.getName()) );
 			return mobileList;
 		} catch (BrandNotFoundException e) {
 			throw new BrandNotFoundRestException();
