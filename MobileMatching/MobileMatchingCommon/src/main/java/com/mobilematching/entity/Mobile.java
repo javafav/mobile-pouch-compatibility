@@ -31,6 +31,13 @@ public class Mobile {
     private List<Pouch> pouches = new ArrayList<>();
 
     public Mobile() {}
+    
+    
+    public Mobile(String name) {
+        this.name = name;
+
+    }
+
 
     public Mobile(String name, String model, Brand brand) {
         this.name = name;

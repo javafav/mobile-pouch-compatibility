@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head
+	th:replace="fragments :: page_head('Pouch Form - MobileMatcher','none')" />
+<body>
+
+	<div class="container-fluid">
+		<div th:replace="navigation :: menu"></div>
+
+		<div>
+			<h2>[[${pageTitle}]]</h2>
+		</div>
+
+		<form th:action="@{/glass_protectors/save}" method="post"
+			enctype="multipart/form-data" th:object="${protector}">
+			<input type="hidden" th:field="*{id}" />
+
+			<!-- Name -->
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Name</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" th:field="*{name}" required />
+				</div>
+			</div>
+
+			<!-- Primary Model -->
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Primary Model</label>
+				<div class="col-sm-4">
+					<select class="form-control" th:field="*{primaryModel}" required>
+						<option value="" disabled selected>-- Select Primary
+							Model --</option>
+						<option th:each="model : ${listPrimaryModels}" th:value="${model}"
+							th:text="${model.name}"></option>
+					</select>
+				</div>
+			</div>
+
+			<!-- Compatible Mobiles -->
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Compatible Mobiles</label>
+				<div class="col-sm-6">
+					<select class="form-control" name="compatibleMobiles" multiple
+						size="6">
+						<option th:each="mobile : ${listMobiles}" th:value="${mobile.id}"
+							th:text="${mobile.brand} + ' - ' + ${mobile.model}"
+							th:selected="${existingMobilesInDB != null and existingMobilesInDB.contains(mobile)}">
+						</option>
+					</select>
+				</div>
+			</div>
+
+	
+
+			<!-- Image Upload -->
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Image</label>
+				<div class="col-sm-4">
+					<input type="file" name="fileImage" accept="image/*"
+						class="form-control-file" />
+					<div th:if="${protector.image != null}">
+						<img th:src="@{'/glass-protector-photos/' + ${protector.image}}"
+							style="max-height: 150px;" class="mt-2" />
+					</div>
+				</div>
+			</div>
+
+			<!-- Buttons -->
+		
+		</form>
+			<div class="text-center mt-4">
+				<button type="submit" class="btn btn-primary">Save</button>
+				&nbsp; <a th:href="@{/glass_protectors}" class="btn btn-secondary">Cancel</a>
+			</div>
+
+		<div th:replace="fragments :: footer"></div>
+	</div>
+
+</body>
+</html>

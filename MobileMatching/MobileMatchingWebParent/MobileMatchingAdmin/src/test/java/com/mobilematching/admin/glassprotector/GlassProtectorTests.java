@@ -1,81 +1,114 @@
-//package com.mobilematching.admin.glassprotector;
-//
-//import static org.assertj.core.api.Assertions.assertThat;
-//
-//import java.util.List;
-//import java.util.Set;
-//
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-//import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-//import org.springframework.test.annotation.Rollback;
-//
-//import com.mobilematching.admin.glassprotector.GlassProtectorRepository;
-//import com.mobilematching.admin.mobiles.MobileRepository;
-//import com.mobilematching.entity.GlassProtector;
-//import com.mobilematching.entity.Mobile;
-//import com.mobilematching.entity.PrimaryModels;
-//@DataJpaTest
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@Rollback(false)
-//public class GlassProtectorTests {
-//
-//	 @Autowired
-//	    private GlassProtectorRepository glassProtectorRepo;
-//
-//	    @Autowired
-//	    private MobileRepository mobileRepo;
-//	    
-//	    
-//	    @Test
-//	    public void testCreateGlassProtectorWithCompatibleModels() {
-//	        Mobile m1 = mobileRepo.findByName("Y20");
-//	        Mobile m2 = mobileRepo.findByName("Camon 20");
-//
-//	        GlassProtector protector = new GlassProtector();
-//	        protector.setName("Vivo Y20 Tempered Glass");
-//	        protector.setPrimaryModel(PrimaryModels.Y20);
-//	        protector.setCompatibleModels(Set.of(m1, m2));
-//
-//	        GlassProtector saved = glassProtectorRepo.save(protector);
-//
-//	        assertThat(saved.getId()).isNotNull();
-//	        assertThat(saved.getCompatibleModels().size()).isEqualTo(2);
-//	    }
-//	    
-//	    @Test
-//	    public void testFetchProtectorByPrimaryModel() {
-//	        List<GlassProtector> protectors = glassProtectorRepo.findAll();
-//
-//	        GlassProtector match = protectors.stream()
-//	                .filter(p -> p.getPrimaryModel() == PrimaryModels.Y20)
-//	                .findFirst()
-//	                .orElse(null);
-//
-//	        assertThat(match).isNotNull();
-//	        assertThat(match.getCompatibleModels()).isNotEmpty();
-//	    }
-//	    
-//	    @Test
-//	    public void testUpdateProtector() {
-//	        GlassProtector protector = glassProtectorRepo.findAll().get(0);
-//	        protector.setName("Updated Tempered Glass Name");
-//
-//	        GlassProtector updated = glassProtectorRepo.save(protector);
-//
-//	        assertThat(updated.getName()).isEqualTo("Updated Tempered Glass Name");
-//	    }
-//
-//	    @Test
-//	    public void testDeleteProtector() {
-//	        List<GlassProtector> all = glassProtectorRepo.findAll();
-//	        if (!all.isEmpty()) {
-//	            glassProtectorRepo.delete(all.get(0));
-//	        }
-//
-//	        long count = glassProtectorRepo.count();
-//	        assertThat(count).isGreaterThanOrEqualTo(0);
-//	    }
-//	
-//}
+package com.mobilematching.admin.glassprotector;
+
+
+import com.mobilematching.admin.mobiles.MobileRepository;
+import com.mobilematching.entity.GlassProtector;
+import com.mobilematching.entity.Mobile;
+import com.mobilematching.entity.PrimaryModel;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
+
+import java.util.List;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DataJpaTest(showSql = false)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Rollback(false)
+public class GlassProtectorTests {
+
+    @Autowired
+    private GlassProtectorRepository glassProtectorRepo;
+
+    @Autowired
+    private PrimaryModelRepository primaryModelRepo;
+
+    @Autowired
+    private MobileRepository mobileRepo;
+
+    @Test
+    public void testCreatePrimaryModel() {
+        PrimaryModel primaryModel = new PrimaryModel("Vivo Y20");
+        PrimaryModel savedModel = primaryModelRepo.save(primaryModel);
+
+        assertThat(savedModel.getId()).isNotNull();
+        assertThat(savedModel.getName()).isEqualTo("Vivo Y20");
+    }
+
+    @Test
+    public void testCreateMobileModels() {
+        Mobile m1 = new Mobile("Y20");
+        Mobile m2 = new Mobile("Camon 20");
+        Mobile m3 = new Mobile("Y21");
+
+        mobileRepo.saveAll(List.of(m1, m2, m3));
+
+        assertThat(m1.getId()).isNotNull();
+        assertThat(m2.getId()).isNotNull();
+        assertThat(m3.getId()).isNotNull();
+    }
+
+    @Test
+    public void testCreateGlassProtectorWithCompatibleModels() {
+        // Fetch or create primary model
+        PrimaryModel primaryModel = primaryModelRepo.findByName("Vivo Y20")
+                .orElseGet(() -> primaryModelRepo.save(new PrimaryModel("Vivo Y20")));
+
+        // Fetch existing mobile models
+        Mobile m1 = mobileRepo.findByName("Y20");
+        Mobile m2 = mobileRepo.findByName("Camon 20");
+
+        assertThat(m1).isNotNull();
+        assertThat(m2).isNotNull();
+
+        GlassProtector protector = new GlassProtector();
+        protector.setName("Glass for Vivo Y20");
+        protector.setPrimaryModel(primaryModel);
+        protector.setCompatibleModels(Set.of(m1, m2));
+
+        GlassProtector savedProtector = glassProtectorRepo.save(protector);
+
+        assertThat(savedProtector.getId()).isNotNull();
+        assertThat(savedProtector.getCompatibleModels().size()).isEqualTo(2);
+    }
+
+    @Test
+    public void testFetchGlassProtector() {
+        List<GlassProtector> protectors = glassProtectorRepo.findAll();
+        assertThat(protectors).isNotEmpty();
+
+        GlassProtector protector = protectors.get(0);
+        System.out.println("Protector Name: " + protector.getName());
+        System.out.println("Primary Model: " + protector.getPrimaryModel().getName());
+        System.out.println("Compatible Models Count: " + protector.getCompatibleModels().size());
+
+        assertThat(protector.getPrimaryModel()).isNotNull();
+        assertThat(protector.getCompatibleModels()).isNotEmpty();
+    }
+
+    @Test
+    public void testUpdateProtectorName() {
+        GlassProtector protector = glassProtectorRepo.findAll().get(0);
+        protector.setName("Updated Glass Protector Name");
+
+        GlassProtector updated = glassProtectorRepo.save(protector);
+
+        assertThat(updated.getName()).isEqualTo("Updated Glass Protector Name");
+    }
+
+    @Test
+    public void testDeleteProtector() {
+        List<GlassProtector> all = glassProtectorRepo.findAll();
+        if (!all.isEmpty()) {
+            glassProtectorRepo.delete(all.get(0));
+        }
+
+        long count = glassProtectorRepo.count();
+        assertThat(count).isGreaterThanOrEqualTo(0);
+    }
+}

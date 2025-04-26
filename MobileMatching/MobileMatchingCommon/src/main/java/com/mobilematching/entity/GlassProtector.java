@@ -15,6 +15,8 @@ public class GlassProtector {
 
     @Column(nullable = false, length = 45, unique = true)
     private String name;
+    
+    private double price;
 
     @ManyToOne
     @JoinColumn(name = "primary_model_id", nullable = false)
@@ -27,34 +29,55 @@ public class GlassProtector {
         inverseJoinColumns = @JoinColumn(name = "mobile_id")
     )
     private Set<Mobile> compatibleModels = new HashSet<>();
-
+    
+    @Column(length = 45)
+    private String brand;
+    
     // Constructors
     public GlassProtector() {}
 
     public GlassProtector(String name, PrimaryModel primaryModel) {
         this.name = name;
         this.primaryModel = primaryModel;
+        // Set brand based on primary model (optional)
+        if (primaryModel != null && primaryModel.getBrand() != null) {
+            this.brand = primaryModel.getBrand();
+        }
     }
 
     // Getters & Setters
     public Long getId() {
         return id;
     }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
     }
 
-    public PrimaryModel getPrimaryModel() {
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
+
+    public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public PrimaryModel getPrimaryModel() {
         return primaryModel;
     }
 
     public void setPrimaryModel(PrimaryModel primaryModel) {
         this.primaryModel = primaryModel;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Set<Mobile> getCompatibleModels() {
@@ -63,6 +86,27 @@ public class GlassProtector {
 
     public void setCompatibleModels(Set<Mobile> compatibleModels) {
         this.compatibleModels = compatibleModels;
+    }
+    
+    public String getBrand() {
+        return brand;
+    }
+    
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+    
+    // Helper methods
+    public void addCompatibleModel(Mobile mobile) {
+        this.compatibleModels.add(mobile);
+    }
+    
+    public void removeCompatibleModel(Mobile mobile) {
+        this.compatibleModels.remove(mobile);
+    }
+    
+    public boolean isCompatibleWith(Mobile mobile) {
+        return this.compatibleModels.contains(mobile);
     }
 
     // equals & hashCode
@@ -77,5 +121,16 @@ public class GlassProtector {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+    
+    @Override
+    public String toString() {
+        return "GlassProtector{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", primaryModel=" + (primaryModel != null ? primaryModel.getName() : "null") +
+                ", compatibleModels=" + compatibleModels.size() +
+                ", brand='" + brand + '\'' +
+                '}';
     }
 }

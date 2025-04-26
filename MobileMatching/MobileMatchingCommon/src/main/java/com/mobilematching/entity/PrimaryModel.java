@@ -14,7 +14,9 @@ public class PrimaryModel {
     private String name;
 
     // Optional: Add more fields like brand, releaseYear etc.
-
+    @Column(length = 45)
+    private String brand;
+    
     // Constructors
     public PrimaryModel() {}
 
@@ -35,7 +37,15 @@ public class PrimaryModel {
         this.name = name;
     }
 
-    // toString
+    public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	// toString
     @Override
     public String toString() {
         return "PrimaryModel{" +
