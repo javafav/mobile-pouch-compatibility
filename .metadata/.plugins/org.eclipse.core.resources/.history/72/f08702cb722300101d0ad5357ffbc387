@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')" />
+
+
+<body>
+
+	<div class="container-fluid">
+		<div th:replace="navigation :: menu"></div>
+
+		<div class="text-center m-3">
+			<h2>Manage Glass Protectors | [[${pageTitle}]]</h2>
+		</div>
+
+		<form th:action="@{/glass_protectors/save}" method="post"
+			th:object="${protector}" style="max-width: 600px; margin: 0 auto;"
+			enctype="multipart/form-data" id="glassProtectorForm">
+
+			<input type="hidden" th:field="*{id}">
+			<div class="border border-secondary rounded p-3">
+
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">Glass Name:</label>
+					<div class="col-sm-8">
+						<input th:field="*{name}" type="text" class="form-control"
+							required minlength="2" maxlength="45">
+					</div>
+				</div>
+
+
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">Price:</label>
+					<div class="col-sm-8">
+						<input th:field="*{price}" type="number" step="100.00"
+							class="form-control" required>
+					</div>
+				</div>
+
+
+
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">Primary Model:</label>
+					<div class="col-sm-8">
+						<select class="form-control" th:field="*{primaryModel}" required>
+							<option value="" disabled selected>-- Select Primary
+								Model --</option>
+							<option th:each="model : ${listPrimaryModels}"
+								th:value="${model.id}" th:text="${model.name}"></option>
+						</select>
+					</div>
+				</div>
+
+
+
+
+
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">Mobile Brands:</label>
+					<div class="col-sm-8">
+						<select class="form-control" th:field="*{brand}" required>
+							<th:block th:each="brand : ${listBrands}">
+								<option th:value="${brand.id}">[[${brand.name}]]</option>
+							</th:block>
+						</select>
+					</div>
+				</div>
+
+
+
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">Select Compatible
+						Mobiles:</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="compatibleMobiles"
+							th:field="*{compatibleMobiles}" multiple
+							style="resize: vertical; height: 200px" required>
+							<th:block th:each="mobile : ${listMobiles}">
+								<option th:value="${mobile.id}">
+									[[${mobile.name}]]</option>
+							</th:block>
+						</select>
+
+						<div class="form-group row">
+							<label class="col-sm-12 col-form-label text-muted"> <small>Hold
+									down the Ctrl (Windows) or Command (Mac) button to select
+									multiple options.</small>
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">Chosen Mobiles:</label>
+					<div class="col-sm-8" id="chosenMobiles"></div>
+				</div>
+
+				<div class="text-center">
+					<input type="submit" class="btn btn-primary m-3" value="Save">
+					<input type="button" class="btn btn-secondary" value="Cancel"
+						id="buttonCancel">
+				</div>
+
+			</div>
+		</form>
+		<div th:replace="fragments :: footer"></div>
+	</div>
+
+	<script>
+
+	$(document).ready(function() {
+	    var dropBrands = $("#brand");
+	    var divCompatibleMobiles = $("#compatibleMobiles");
+	    var divChosenMobiles = $("#chosenMobiles");
+	    
+	    // Store selected mobiles
+	    var selectedMobiles = new Map();
+	    
+	    // Initialize with existing selections
+	    divCompatibleMobiles.children("option:selected").each(function() {
+	        var mobile = $(this);
+	        selectedMobiles.set(mobile.val(), mobile.text());
+	    });
+	    
+	    dropBrands.change(function() {
+	        getMobiles();
+	    });
+	    
+	    divCompatibleMobiles.change(function() {
+	        // Clear previous selections that are no longer selected
+	        var currentSelections = new Set();
+	        divCompatibleMobiles.children("option:selected").each(function() {
+	            currentSelections.add($(this).val());
+	        });
+	        
+	        // Remove entries that are no longer selected
+	        selectedMobiles.forEach(function(value, key) {
+	            // Check if this mobile is from the current brand and not selected
+	            if (!currentSelections.has(key) && 
+	                divCompatibleMobiles.find("option[value='" + key + "']").length > 0) {
+	                selectedMobiles.delete(key);
+	            }
+	        });
+	        
+	        // Add new selections
+	        divCompatibleMobiles.children("option:selected").each(function() {
+	            var mobile = $(this);
+	            selectedMobiles.set(mobile.val(), mobile.text());
+	        });
+	        
+	        showChosenMobile();
+	        updateHiddenInputs();
+	    });
+	    
+	    function showChosenMobile() {
+	        divChosenMobiles.empty();
+	        
+	        // Display all selected mobiles from our map with green badges
+	        selectedMobiles.forEach(function(name, id) {
+	            var mobName = name.replace(/-/g, '');
+	            divChosenMobiles.append(
+	                "<span class='badge badge-success m-1 remove-badge' data-id='" + id + "'>" + 
+	                mobName + 
+	                " <i class='fas fas-times-circle remove-mobile' data-id='" + id + "'></i></span>"
+	            );
+	        });
+	        
+	        // Add click handler to remove badges when the badge itself is clicked
+	        $(".remove-badge").click(function() {
+	            var mobileId = $(this).data("id");
+	            removeMobile(mobileId);
+	        });
+	        
+	        // Add click handler for the 'x' icon (to maintain backward compatibility)
+	        $(".remove-mobile").click(function(e) {
+	            var mobileId = $(this).data("id");
+	            removeMobile(mobileId);
+	            e.stopPropagation(); // Prevent the badge click event from also firing
+	        });
+	    }
+	    
+	    // Function to handle mobile removal
+	    function removeMobile(mobileId) {
+	        selectedMobiles.delete(mobileId);
+	        
+	        // Also deselect it in the dropdown if it exists there
+	        divCompatibleMobiles.find("option[value='" + mobileId + "']").prop("selected", false);
+	        
+	        showChosenMobile();
+	        updateHiddenInputs();
+	    }
+	    
+	    function updateHiddenInputs() {
+	        // Remove any existing hidden inputs for compatibleMobiles
+	        $("input[name='compatibleMobiles']").remove();
+	        
+	        // Create hidden inputs for all selected mobiles
+	        selectedMobiles.forEach(function(name, id) {
+	            $("<input>").attr({
+	                type: "hidden",
+	                name: "compatibleMobiles",
+	                value: id
+	            }).appendTo("form");
+	        });
+	    }
+	    
+	    function getMobiles() {
+	        var brandId = dropBrands.val();
+	       
+	        var url = "[[@{/brands/}]]" + brandId + "/mobiles";
+	        
+	        $.get(
+	            url,
+	            function(responseJSON) {
+	                // Now empty and repopulate
+	                divCompatibleMobiles.empty();
+	                
+	                if (responseJSON.length === 0) {
+	                    $("<option>").val("").text("No mobiles available")
+	                        .prop("disabled", true).appendTo(divCompatibleMobiles);
+	                } else {
+	                    $.each(responseJSON, function(index, mobile) {
+	                        var option = $("<option>").val(mobile.id).text(mobile.name)
+	                            .appendTo(divCompatibleMobiles);
+	                            
+	                        // If this mobile was previously selected, select it again
+	                        if (selectedMobiles.has(mobile.id.toString())) {
+	                            option.prop("selected", true);
+	                        }
+	                    });
+	                }
+	                
+	                // Update hidden inputs after changing the mobiles list
+	                updateHiddenInputs();
+	            }
+	        ).fail(function() {
+	            showErrorDialog("Error fetching mobiles for brand: " + brandId + " " + url);
+	        });
+	    }
+	    
+	    // Initialize
+	    showChosenMobile();
+	    updateHiddenInputs();
+	    
+	    // Modify the form submit to ensure all selected mobiles are included
+	    $("form").submit(function(event) {
+	        // Update hidden inputs one last time before submission
+	        updateHiddenInputs();
+	        
+	        // If no mobiles selected, prevent submission
+	        if (selectedMobiles.size === 0) {
+	            event.preventDefault();
+	            showErrorDialog("Please select at least one compatible mobile.");
+	            return false;
+	        }
+	        
+	        return true;
+	    });
+	});
+</script>
+</body>
+</html>

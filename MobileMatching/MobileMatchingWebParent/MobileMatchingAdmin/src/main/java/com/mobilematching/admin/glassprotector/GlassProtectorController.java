@@ -82,12 +82,12 @@ public class GlassProtectorController {
     public String newGlassProtector(Model model) {
         GlassProtector protector = new GlassProtector();
         List<Brand> listBrands = brandService.listAll();
-        List<Mobile> listMobiles = mobileService.listAll();
+      
         List<PrimaryModel> listPrimaryModels = primaryModelService.listAll();
 
         model.addAttribute("protector", protector);
         model.addAttribute("listBrands", listBrands);
-        model.addAttribute("listMobiles", listMobiles);
+       
         model.addAttribute("listPrimaryModels", listPrimaryModels);
         model.addAttribute("pageTitle", "Create New Glass Protector");
 
@@ -97,15 +97,10 @@ public class GlassProtectorController {
     @PostMapping("/glass_protectors/save")
     public String saveGlassProtector(GlassProtector protector,
                                      RedirectAttributes redirectAttributes,
-                                       @RequestParam("fileImage") MultipartFile multipartFile,
-                                     @RequestParam(value = "compatibleMobiles", required = false) List<Long> mobileIds) throws IOException {
+                                       
+                                     @RequestParam(value = "compatibleMobiles", required = true) List<Long> mobileIds) throws IOException {
 
-        if (!multipartFile.isEmpty()) {
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-          //  protector.setImage(fileName);
-            String uploadDir = "./glass-protector-photos/";
-            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-        }
+    
 
         glassProtectorService.save(protector, mobileIds);
 
@@ -118,7 +113,7 @@ public class GlassProtectorController {
         try {
             GlassProtector protector = glassProtectorService.get(id);
 
-            List<Mobile> existingMobilesInDB = List.copyOf(protector.getCompatibleModels());
+            List<Mobile> existingMobilesInDB = List.copyOf(protector.getCompatibleMobiles());
             List<Brand> listBrands = brandService.listAll();
             List<Mobile> listMobiles = mobileService.listAll();
             List<PrimaryModel> listPrimaryModels = primaryModelService.listAll();

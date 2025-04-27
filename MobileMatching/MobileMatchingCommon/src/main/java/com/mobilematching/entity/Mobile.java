@@ -29,6 +29,9 @@ public class Mobile {
 
     @ManyToMany(mappedBy = "compatibleMobiles")
     private List<Pouch> pouches = new ArrayList<>();
+    
+    @ManyToMany(mappedBy = "compatibleMobiles")
+    private List<GlassProtector> protectors = new ArrayList<>();
 
     public Mobile() {}
     

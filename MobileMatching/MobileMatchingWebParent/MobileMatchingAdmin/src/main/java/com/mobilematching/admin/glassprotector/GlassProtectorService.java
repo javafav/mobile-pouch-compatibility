@@ -47,7 +47,7 @@ public class GlassProtectorService {
     public GlassProtector save(GlassProtector protector, List<Long> mobileIds) {
         if (mobileIds != null && !mobileIds.isEmpty()) {
             List<Mobile> mobiles = mobileRepo.findAllById(mobileIds);
-            protector.setCompatibleModels(Set.copyOf(mobiles));
+            protector.setCompatibleMobiles(Set.copyOf(mobiles));
         }
         return glassProtectorRepo.save(protector);
     }

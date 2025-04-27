@@ -1,4 +1,4 @@
-package com.mobilematching.entity;
+ package com.mobilematching.entity;
 
 
 import jakarta.persistence.*;

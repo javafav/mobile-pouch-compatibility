@@ -19,7 +19,7 @@ public class GlassProtector {
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "primary_model_id", nullable = false)
+    @JoinColumn(name = "primary_model_id", nullable = true)
     private PrimaryModel primaryModel;
 
     @ManyToMany
@@ -28,7 +28,7 @@ public class GlassProtector {
         joinColumns = @JoinColumn(name = "glass_protector_id"),
         inverseJoinColumns = @JoinColumn(name = "mobile_id")
     )
-    private Set<Mobile> compatibleModels = new HashSet<>();
+    private Set<Mobile> compatibleMobiles = new HashSet<>();
     
     @Column(length = 45)
     private String brand;
@@ -38,7 +38,15 @@ public class GlassProtector {
 
     public GlassProtector(String name, PrimaryModel primaryModel) {
         this.name = name;
-        this.primaryModel = primaryModel;
+        
+        if (primaryModel == null) {
+            PrimaryModel defaultModel = new PrimaryModel();
+            defaultModel.setName("No Primary Model");
+            this.primaryModel = defaultModel;
+        } else {
+            this.primaryModel = primaryModel;
+        }
+       
         // Set brand based on primary model (optional)
         if (primaryModel != null && primaryModel.getBrand() != null) {
             this.brand = primaryModel.getBrand();
@@ -80,12 +88,12 @@ public class GlassProtector {
         this.primaryModel = primaryModel;
     }
 
-    public Set<Mobile> getCompatibleModels() {
-        return compatibleModels;
+    public Set<Mobile> getCompatibleMobiles() {
+        return compatibleMobiles;
     }
 
-    public void setCompatibleModels(Set<Mobile> compatibleModels) {
-        this.compatibleModels = compatibleModels;
+    public void setCompatibleMobiles(Set<Mobile> compatibleMobiles) {
+        this.compatibleMobiles = compatibleMobiles;
     }
     
     public String getBrand() {
@@ -97,16 +105,16 @@ public class GlassProtector {
     }
     
     // Helper methods
-    public void addCompatibleModel(Mobile mobile) {
-        this.compatibleModels.add(mobile);
+    public void addCompatibleMobile(Mobile mobile) {
+        this.compatibleMobiles.add(mobile);
     }
     
-    public void removeCompatibleModel(Mobile mobile) {
-        this.compatibleModels.remove(mobile);
+    public void removeCompatibleMobile(Mobile mobile) {
+        this.compatibleMobiles.remove(mobile);
     }
     
     public boolean isCompatibleWith(Mobile mobile) {
-        return this.compatibleModels.contains(mobile);
+        return this.compatibleMobiles.contains(mobile);
     }
 
     // equals & hashCode
@@ -129,7 +137,7 @@ public class GlassProtector {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", primaryModel=" + (primaryModel != null ? primaryModel.getName() : "null") +
-                ", compatibleModels=" + compatibleModels.size() +
+                ", compatibleModels=" + compatibleMobiles.size() +
                 ", brand='" + brand + '\'' +
                 '}';
     }

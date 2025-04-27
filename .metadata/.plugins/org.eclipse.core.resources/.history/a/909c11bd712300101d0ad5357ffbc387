@@ -1,0 +1,138 @@
+:root {
+    --footer-bg: #343a40;
+    --footer-text: ivory;
+    --icon-red: #EC7FA9;
+    --icon-red-hover: #D76C82;
+    --icon-white: white;
+    --icon-silver: silver;
+    --icon-green: green;
+    --icon-dark: grey;
+    --icon-gold: #FFD700;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    flex: 1;
+}
+
+.footer {
+    flex-shrink: 0;
+    color: var(--footer-text);
+    background-color: var(--footer-bg);
+    text-align: center;
+    margin-top: auto;
+}
+
+/* Icon colors */
+.icon-red { color: var(--icon-red); }
+.icon-white { color: var(--icon-white); }
+.icon-silver { color: var(--icon-silver); }
+.icon-green { color: var(--icon-green); }
+.icon-dark { color: var(--icon-dark); }
+.icon-gold { color: var(--icon-gold); }
+
+.icon-red:hover {
+    color: var(--icon-red-hover);
+}
+
+
+.midnight-blue:hover {
+    color: #333;
+}
+
+/* Button caption on hover */
+button .caption {
+    display: none;
+}
+
+button:hover .caption {
+    display: inline;
+}
+
+/* Product image sizes */
+.product-images {
+    max-width: 500px;
+    max-height: 500px;
+}
+
+.profile-pic {
+    width: 35px;
+    height: 35px;
+    border-radius: 50px;
+    object-fit: cover;
+}
+
+/* Dropdown hover effect */
+.dropdown-menu-hover:hover {
+    background: var(--footer-bg);
+    color: var(--footer-text);
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .full-details {
+        display: none;
+    }
+
+    .less-details {
+        display: block;
+    }
+
+    .less-detail-field {
+        width: 45%;
+    }
+
+    .product-less-details {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .product-images {
+        max-width: 200px;
+        max-height: 200px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .full-details {
+        display: block;
+    }
+
+    .table-width {
+        width: 100%;
+    }
+
+    .less-details {
+        display: none;
+    }
+
+    .hideable-column {
+        display: none;
+    }
+
+    .medium-screen-brand {
+        white-space: nowrap;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .less-details {
+        display: none;
+    }
+
+    .hideable-column {
+        display: table-cell;
+    }
+}

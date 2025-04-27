@@ -69,12 +69,12 @@ public class GlassProtectorTests {
         GlassProtector protector = new GlassProtector();
         protector.setName("Glass for Vivo Y20");
         protector.setPrimaryModel(primaryModel);
-        protector.setCompatibleModels(Set.of(m1, m2));
+        protector.setCompatibleMobiles(Set.of(m1, m2));
 
         GlassProtector savedProtector = glassProtectorRepo.save(protector);
 
         assertThat(savedProtector.getId()).isNotNull();
-        assertThat(savedProtector.getCompatibleModels().size()).isEqualTo(2);
+        assertThat(savedProtector.getCompatibleMobiles().size()).isEqualTo(2);
     }
 
     @Test
@@ -85,10 +85,10 @@ public class GlassProtectorTests {
         GlassProtector protector = protectors.get(0);
         System.out.println("Protector Name: " + protector.getName());
         System.out.println("Primary Model: " + protector.getPrimaryModel().getName());
-        System.out.println("Compatible Models Count: " + protector.getCompatibleModels().size());
+        System.out.println("Compatible Models Count: " + protector.getCompatibleMobiles().size());
 
         assertThat(protector.getPrimaryModel()).isNotNull();
-        assertThat(protector.getCompatibleModels()).isNotEmpty();
+        assertThat(protector.getCompatibleMobiles()).isNotEmpty();
     }
 
     @Test

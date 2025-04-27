@@ -8,6 +8,8 @@
     --icon-green: green;
     --icon-dark: grey;
     --icon-gold: #FFD700;
+    
+    
 }
 
 html, body {
@@ -50,6 +52,10 @@ body {
 
 .midnight-blue:hover {
     color: #333;
+}
+
+.badge-success:hover{
+	color: #D76C82;
 }
 
 /* Button caption on hover */
