@@ -22,6 +22,7 @@ import com.mobilematching.admin.util.FileUploadUtil;
 import com.mobilematching.entity.Brand;
 import com.mobilematching.entity.Mobile;
 import com.mobilematching.entity.Pouch;
+import com.mobilematching.exception.MobileNotFoundException;
 import com.mobilematching.exception.PouchNotFoundException;
 
 
@@ -127,6 +128,28 @@ public class PouchController {
 			return "redirect:/pouches";
 		}
 	}
+	
+	
+	   @GetMapping("/pouches/delete/{id}")
+	    public String deleteGlassProtectors(@PathVariable(name = "id") Long id,
+	                              Model model,
+	                              RedirectAttributes redirectAttributes) {
+	        try {
+	            Pouch pouch = pouchService.get(id);
+	        	
+	            String pouchDir = "./pouch-photos/" + pouch.getImage();
+	            FileUploadUtil.removeFile(pouchDir);
+	            pouchService.delete(id);
+
+	            redirectAttributes.addFlashAttribute("message",
+	                    "The mobile ID " + id + " has been deleted successfully");
+	        } catch (PouchNotFoundException ex) {
+	            redirectAttributes.addFlashAttribute("message", ex.getMessage());
+	        }
+
+	        return "redirect:/mobiles";
+	    }
+	   
 
 //   @GetMapping("/pouches1")
 //   public String getFilteredPouches(

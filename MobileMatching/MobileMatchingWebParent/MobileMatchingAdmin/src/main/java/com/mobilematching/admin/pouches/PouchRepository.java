@@ -25,6 +25,11 @@ public interface PouchRepository extends JpaRepository<Pouch, Long>, JpaSpecific
 	@Query("SELECT p FROM Pouch p JOIN p.compatibleMobiles m WHERE m.name LIKE %:keyword% OR m.model LIKE %:keyword% OR  m.brand.name LIKE %:keyword% ")
 	Page<Pouch> findAll( String keyword, Pageable pageable);
 	
+	
+	   @Query("SELECT COUNT(p) FROM Pouch p WHERE p.id = ?1")
+	    public Long count(Long id);
+	
+	
 //	@Query("SELECT p FROM Pouch p JOIN p.compatibleMobiles m WHERE " +
 //		       "(:mobile IS NULL OR m.name LIKE %:mobile%) AND (:brand IS NULL OR m.brand.name LIKE %:brand%)")
 //		Page<Pouch> findPouchesByMobileOrBrand(@Param("mobile") String mobile, 

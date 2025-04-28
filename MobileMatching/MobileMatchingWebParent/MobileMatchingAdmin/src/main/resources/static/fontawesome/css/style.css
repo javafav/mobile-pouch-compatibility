@@ -54,9 +54,6 @@ body {
     color: #333;
 }
 
-.badge-success:hover{
-	color: #D76C82;
-}
 
 /* Button caption on hover */
 button .caption {

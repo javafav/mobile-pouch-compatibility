@@ -121,7 +121,7 @@ public class MobileController {
 	
 	
 	   @GetMapping("/mobiles/delete/{id}")
-	    public String deleteBrand(@PathVariable(name = "id") Long id,
+	    public String deleteMobile(@PathVariable(name = "id") Long id,
 	                              Model model,
 	                              RedirectAttributes redirectAttributes) {
 	        try {

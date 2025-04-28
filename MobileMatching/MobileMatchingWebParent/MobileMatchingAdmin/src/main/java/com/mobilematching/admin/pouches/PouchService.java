@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.mobilematching.admin.mobiles.MobileRepository;
 import com.mobilematching.entity.Mobile;
 import com.mobilematching.entity.Pouch;
+import com.mobilematching.exception.MobileNotFoundException;
 import com.mobilematching.exception.PouchNotFoundException;
 
 
@@ -54,6 +55,7 @@ public class PouchService {
     }
     
     
+
 	public Pouch get(Long id) throws PouchNotFoundException {
 		try {
 
@@ -64,8 +66,14 @@ public class PouchService {
 		}
 	}
     
-    
-    
+	public void delete(Long id) throws PouchNotFoundException {
+		long count = pouchRepo.count(id);
+		if (count == 0) {
+			throw new PouchNotFoundException("Could not find the mobile with given (ID " + id + ")");
+		}
+		pouchRepo.deleteById(id);
+	}
+	
 //    public List<Pouch> getCompatiblePouches(String mobileModel) {
 //        return pouchRepository.findCompatiblePouchesByModel(mobileModel);
 //    }
