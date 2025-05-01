@@ -24,11 +24,11 @@
     <fullyQualifiedTypeName name="com.mobilematching.admin.mobiles.MobileRepository"/>
     <fullyQualifiedTypeName name="org.junit.jupiter.api.Test"/>
     <fullyQualifiedTypeName name="com.mobilematching.entity.Mobile"/>
-    <fullyQualifiedTypeName name="com.mobilematching.entity.GlassProtector"/>
     <fullyQualifiedTypeName name="com.mobilematching.entity.PrimaryModels"/>
     <fullyQualifiedTypeName name="java.util.Set"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.JpaRepository"/>
     <fullyQualifiedTypeName name="com.mobilematching.entity.PrimaryModel"/>
     <fullyQualifiedTypeName name="java.util.Optional"/>
+    <fullyQualifiedTypeName name="com.mobilematching.entity.GlassProtector"/>
 </qualifiedTypeNameHistroy>
