@@ -1,5 +1,0 @@
-package com.mobilematching.entity;
-
-public enum PrimaryModels {
-Y20, CAMON20;
-}

@@ -1,5 +1,0 @@
-package com.mobilematching.admin.glassprotector;
-
-public interface PrimaryModelRepository {
-
-}
