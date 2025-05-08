@@ -7,9 +7,9 @@
 		<artifactId>MobileMatchingWebParent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.mobilematching</groupId>
+
 	<artifactId>MobileMatchingUserEnd</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	
 	<name>MobileMatchingUserEnd</name>
 	<description>End User Web App   for Mobile Matching </description>
 	<url/>
@@ -33,7 +33,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-
+<dependency>
+    <groupId>com.opencsv</groupId>
+    <artifactId>opencsv</artifactId>
+    <version>5.7.1</version> <!-- Latest stable version -->
+</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

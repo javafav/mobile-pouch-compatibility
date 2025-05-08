@@ -1,5 +1,0 @@
-package com.mobilematching.exception;
-
-public class GlassProtectorNotFoundException {
-
-}
