@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mobilematching.admin.util.FileUploadUtil;
-import com.mobilematching.entity.Brand;
+import com.mobilematching.common.entity.Brand;
 import com.mobilematching.exception.BrandNotFoundException;
 
 import java.io.IOException;

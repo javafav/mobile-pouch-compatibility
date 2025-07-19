@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.mobilematching.entity.Mobile;
-import com.mobilematching.entity.Pouch;
+import com.mobilematching.common.entity.Mobile;
+import com.mobilematching.common.entity.Pouch;
 
 import java.util.List;
 

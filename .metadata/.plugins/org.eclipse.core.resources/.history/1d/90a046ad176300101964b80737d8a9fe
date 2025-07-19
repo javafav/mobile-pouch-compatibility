@@ -1,0 +1,5 @@
+package com.mobilematching.site.glassprotector;
+
+public interface GlassProtectorRepository {
+
+}

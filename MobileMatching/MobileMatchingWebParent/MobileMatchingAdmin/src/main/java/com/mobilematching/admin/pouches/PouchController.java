@@ -19,9 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.mobilematching.admin.brands.BrandService;
 import com.mobilematching.admin.mobiles.MobileService;
 import com.mobilematching.admin.util.FileUploadUtil;
-import com.mobilematching.entity.Brand;
-import com.mobilematching.entity.Mobile;
-import com.mobilematching.entity.Pouch;
+import com.mobilematching.common.entity.Brand;
+import com.mobilematching.common.entity.Mobile;
+import com.mobilematching.common.entity.Pouch;
 import com.mobilematching.exception.MobileNotFoundException;
 import com.mobilematching.exception.PouchNotFoundException;
 

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mobilematching.admin.mobiles.MobileDTO;
-import com.mobilematching.entity.Brand;
-import com.mobilematching.entity.Mobile;
+import com.mobilematching.common.entity.Brand;
+import com.mobilematching.common.entity.Mobile;
 import com.mobilematching.exception.BrandNotFoundException;
 import com.mobilematching.exception.BrandNotFoundRestException;
 

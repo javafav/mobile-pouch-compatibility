@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import com.mobilematching.entity.Mobile;
+import com.mobilematching.common.entity.Mobile;
 
 
 public interface MobileRepository extends JpaRepository<Mobile, Long> {

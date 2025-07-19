@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.mobilematching.entity.Brand;
+import com.mobilematching.common.entity.Brand;
 import com.mobilematching.exception.BrandNotFoundException;
 
 import jakarta.transaction.Transactional;

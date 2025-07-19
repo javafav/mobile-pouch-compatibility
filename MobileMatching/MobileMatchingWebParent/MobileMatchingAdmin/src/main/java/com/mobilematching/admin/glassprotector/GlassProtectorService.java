@@ -12,8 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mobilematching.admin.mobiles.MobileRepository;
-import com.mobilematching.entity.GlassProtector;
-import com.mobilematching.entity.Mobile;
+import com.mobilematching.common.entity.GlassProtector;
+import com.mobilematching.common.entity.Mobile;
 import com.mobilematching.exception.GlassProtectorNotFoundException;
 
 @Service

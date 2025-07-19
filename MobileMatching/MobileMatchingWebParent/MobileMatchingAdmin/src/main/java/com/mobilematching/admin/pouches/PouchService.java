@@ -11,8 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mobilematching.admin.mobiles.MobileRepository;
-import com.mobilematching.entity.Mobile;
-import com.mobilematching.entity.Pouch;
+import com.mobilematching.common.entity.Mobile;
+import com.mobilematching.common.entity.Pouch;
 import com.mobilematching.exception.MobileNotFoundException;
 import com.mobilematching.exception.PouchNotFoundException;
 

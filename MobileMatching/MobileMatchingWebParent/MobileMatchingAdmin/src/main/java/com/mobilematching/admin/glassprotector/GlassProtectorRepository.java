@@ -5,8 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.mobilematching.entity.GlassProtector;
-import com.mobilematching.entity.Pouch;
+import com.mobilematching.common.entity.GlassProtector;
+import com.mobilematching.common.entity.Pouch;
 
 public interface GlassProtectorRepository extends JpaRepository<GlassProtector, Long> {
 	

@@ -20,10 +20,10 @@ import com.mobilematching.admin.brands.BrandService;
 import com.mobilematching.admin.mobiles.MobileService;
 
 import com.mobilematching.admin.util.FileUploadUtil;
-import com.mobilematching.entity.Brand;
-import com.mobilematching.entity.GlassProtector;
-import com.mobilematching.entity.Mobile;
-import com.mobilematching.entity.PrimaryModel;
+import com.mobilematching.common.entity.Brand;
+import com.mobilematching.common.entity.GlassProtector;
+import com.mobilematching.common.entity.Mobile;
+import com.mobilematching.common.entity.PrimaryModel;
 import com.mobilematching.exception.GlassProtectorNotFoundException;
 
 @Controller

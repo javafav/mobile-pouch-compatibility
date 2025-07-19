@@ -2,9 +2,9 @@ package com.mobilematching.admin.glassprotector;
 
 
 import com.mobilematching.admin.mobiles.MobileRepository;
-import com.mobilematching.entity.GlassProtector;
-import com.mobilematching.entity.Mobile;
-import com.mobilematching.entity.PrimaryModel;
+import com.mobilematching.common.entity.GlassProtector;
+import com.mobilematching.common.entity.Mobile;
+import com.mobilematching.common.entity.PrimaryModel;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,7 @@ package com.mobilematching.admin.pouches;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.mobilematching.entity.Pouch;
+import com.mobilematching.common.entity.Pouch;
 
 public class PouchSpecification {
     public static Specification<Pouch> hasMaterial(String material) {
