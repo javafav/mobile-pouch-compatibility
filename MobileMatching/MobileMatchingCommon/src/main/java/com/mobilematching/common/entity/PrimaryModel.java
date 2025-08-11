@@ -4,53 +4,37 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "primary_models")
+
 public class PrimaryModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String name;
 
-    // Optional: Add more fields like brand, releaseYear etc.
-    @Column(length = 45)
-    private String brand;
-    
+    @ManyToOne
+    @JoinColumn(name = "brand_id", nullable = false)
+    private Brand brand;
+
     // Constructors
     public PrimaryModel() {}
 
-    public PrimaryModel(String name) {
+    public PrimaryModel(String name, Brand brand) {
         this.name = name;
+        this.brand = brand;
     }
 
-    // Getters & Setters
-    public Long getId() {
-        return id;
-    }
+    // Getters and setters
+    public Long getId() { return id; }
 
-    public String getName() {
-        return name;
-    }
+    public void setId(Long id) { this.id = id; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getName() { return name; }
 
-    public String getBrand() {
-		return brand;
-	}
+    public void setName(String name) { this.name = name; }
 
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
+    public Brand getBrand() { return brand; }
 
-	// toString
-    @Override
-    public String toString() {
-        return "PrimaryModel{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
+    public void setBrand(Brand brand) { this.brand = brand; }
 }

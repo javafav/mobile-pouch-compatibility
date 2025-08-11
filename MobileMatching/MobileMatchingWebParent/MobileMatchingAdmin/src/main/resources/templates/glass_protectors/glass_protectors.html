@@ -37,7 +37,8 @@
 							<td class="hideable-column">[[${glass.id}]]</td>
 
 							<td>[[${glass.name}]]</td>
-							<td>[[${glass.primaryModel.name}]]</td>
+							<td><span th:text="${glass.primaryModel != null ? glass.primaryModel.name : 'No Model'}"></span>
+							</td>
 
 							<td><th:block th:each="mobile : ${glass.compatibleMobiles}">
 									<span class="badge badge-secondary">[[${mobile.name}]]</span>

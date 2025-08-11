@@ -22,6 +22,9 @@ public class GlassProtector {
     @JoinColumn(name = "primary_model_id", nullable = true)
     private PrimaryModel primaryModel;
 
+
+    
+    
     @ManyToMany
     @JoinTable(
         name = "glass_protector_compatibility",
@@ -30,8 +33,9 @@ public class GlassProtector {
     )
     private Set<Mobile> compatibleMobiles = new HashSet<>();
     
-    @Column(length = 45)
-    private String brand;
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
     
     // Constructors
     public GlassProtector() {}
@@ -96,11 +100,11 @@ public class GlassProtector {
         this.compatibleMobiles = compatibleMobiles;
     }
     
-    public String getBrand() {
+    public Brand getBrand() {
         return brand;
     }
     
-    public void setBrand(String brand) {
+    public void setBrand(Brand brand) {
         this.brand = brand;
     }
     

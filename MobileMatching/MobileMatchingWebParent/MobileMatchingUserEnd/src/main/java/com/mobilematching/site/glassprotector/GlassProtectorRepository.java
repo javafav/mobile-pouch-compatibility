@@ -1,9 +1,10 @@
 package com.mobilematching.site.glassprotector;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.mobilematching.common.entity.GlassProtector;
 
@@ -11,5 +12,26 @@ public interface GlassProtectorRepository extends JpaRepository<GlassProtector, 
 
 	
 	 @Query("SELECT gp FROM GlassProtector gp JOIN gp.compatibleMobiles m WHERE m.name LIKE %:keyword% OR m.model LIKE %:keyword% OR  m.brand.name LIKE %:keyword% ")
-		Page<GlassProtector> findAll( String keyword, Pageable pageable);
+		List<GlassProtector> findAll( String keyword);
+	 
+	 List<GlassProtector> findByCompatibleMobiles_Name(String mobileName);
+	 
+//		@Query("""
+//			       SELECT gp
+//			       FROM GlassProtector gp
+//			       JOIN gp.compatibleMobiles m
+//			       WHERE LOWER(m.name) LIKE LOWER(CONCAT('%', :mobileName, '%'))
+//			       """)
+//			List<GlassProtector> searchByCompatibleMobileName( String mobileName);
+	 
+	 @Query("""
+			    SELECT g
+			    FROM GlassProtector g
+			    JOIN g.compatibleMobiles m
+			    JOIN m.primaryModel pm
+			    JOIN pm.brand b
+			    WHERE FUNCTION('REPLACE', LOWER(CONCAT(b.name, ' ', pm.name)), ' ', '') 
+			          LIKE CONCAT('%', FUNCTION('REPLACE', LOWER(:search), ' ', ''), '%')
+			    """)
+			List<GlassProtector> searchByCompatibleMobileName(@Param("search") String search);
 }

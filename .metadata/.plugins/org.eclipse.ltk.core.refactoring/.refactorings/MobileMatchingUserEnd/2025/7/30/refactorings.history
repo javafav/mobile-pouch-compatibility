@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Extract local variable &apos;findAll&apos; from expression &apos;(List&lt;GlassProtector&gt;)repo.findAll(mobile)&apos;&#x0D;&#x0A;- Original project: &apos;MobileMatchingUserEnd&apos;&#x0D;&#x0A;- Variable name: &apos;findAll&apos;&#x0D;&#x0A;- Destination method: &apos;com.mobilematching.site.glassprotector.GlassProtectorService.findAll(...)&apos;&#x0D;&#x0A;- Variable expression: &apos;(List&lt;GlassProtector&gt;)repo.findAll(mobile)&apos;&#x0D;&#x0A;- Replace occurrences of expression with variable" description="Extract local variable &apos;findAll&apos;" final="false" id="org.eclipse.jdt.ui.extract.temp" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.mobilematching.site.glassprotector{GlassProtectorService.java" name="findAll" replace="true" selection="419 43" stamp="1753022392990" varType="false" version="1.0"/>
+</session>

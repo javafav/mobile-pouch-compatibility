@@ -2,6 +2,7 @@ package com.mobilematching.admin.glassprotector;
 
 
 import com.mobilematching.admin.mobiles.MobileRepository;
+import com.mobilematching.common.entity.Brand;
 import com.mobilematching.common.entity.GlassProtector;
 import com.mobilematching.common.entity.Mobile;
 import com.mobilematching.common.entity.PrimaryModel;
@@ -33,7 +34,7 @@ public class GlassProtectorTests {
 
     @Test
     public void testCreatePrimaryModel() {
-        PrimaryModel primaryModel = new PrimaryModel("Vivo Y20");
+        PrimaryModel primaryModel = new PrimaryModel("Vivo Y20", new Brand(14L));
         PrimaryModel savedModel = primaryModelRepo.save(primaryModel);
 
         assertThat(savedModel.getId()).isNotNull();
@@ -57,7 +58,7 @@ public class GlassProtectorTests {
     public void testCreateGlassProtectorWithCompatibleModels() {
         // Fetch or create primary model
         PrimaryModel primaryModel = primaryModelRepo.findByName("Vivo Y20")
-                .orElseGet(() -> primaryModelRepo.save(new PrimaryModel("Vivo Y20")));
+                .orElseGet(() -> primaryModelRepo.save(new PrimaryModel("Vivo Y20", new Brand(14L))));
 
         // Fetch existing mobile models
         Mobile m1 = mobileRepo.findByName("Y20");
