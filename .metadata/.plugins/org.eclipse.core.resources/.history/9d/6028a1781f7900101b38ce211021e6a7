@@ -1,0 +1,31 @@
+package com.mobilematching.site.glassprotector;
+
+import java.util.List;
+
+import com.mobilematching.common.entity.Mobile;
+
+public class PrimaryAndCompatibleModelsDto {
+    private Mobile primaryModel;
+    private List<Mobile> compatibleModels;
+
+    public PrimaryAndCompatibleModelsDto(Mobile primaryModel, List<Mobile> compatibleModels) {
+        this.primaryModel = primaryModel;
+        this.compatibleModels = compatibleModels;
+    }
+
+    public Mobile getPrimaryModel() {
+        return primaryModel;
+    }
+
+    public void setPrimaryModel(Mobile primaryModel) {
+        this.primaryModel = primaryModel;
+    }
+
+    public List<Mobile> getCompatibleModels() {
+        return compatibleModels;
+    }
+
+    public void setCompatibleModels(List<Mobile> compatibleModels) {
+        this.compatibleModels = compatibleModels;
+    }
+}

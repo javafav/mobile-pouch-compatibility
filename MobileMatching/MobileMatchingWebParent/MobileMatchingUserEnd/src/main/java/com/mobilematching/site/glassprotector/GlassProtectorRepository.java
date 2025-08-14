@@ -16,22 +16,25 @@ public interface GlassProtectorRepository extends JpaRepository<GlassProtector, 
 	 
 	 List<GlassProtector> findByCompatibleMobiles_Name(String mobileName);
 	 
-//		@Query("""
-//			       SELECT gp
-//			       FROM GlassProtector gp
-//			       JOIN gp.compatibleMobiles m
-//			       WHERE LOWER(m.name) LIKE LOWER(CONCAT('%', :mobileName, '%'))
-//			       """)
-//			List<GlassProtector> searchByCompatibleMobileName( String mobileName);
+		@Query("""
+			       SELECT gp
+			       FROM GlassProtector gp
+			       JOIN gp.compatibleMobiles m
+			       WHERE LOWER(m.name) LIKE LOWER(CONCAT('%', :mobileName, '%'))
+			       """)
+			List<GlassProtector> searchByCompatibleMobileName( String mobileName);
+		
+		  @Query("SELECT gp FROM GlassProtector gp JOIN gp.compatibleMobiles m WHERE m.id = :mobileId")
+		    List<GlassProtector> findByCompatibleMobile(@Param("mobileId") Long mobileId);
 	 
-	 @Query("""
-			    SELECT g
-			    FROM GlassProtector g
-			    JOIN g.compatibleMobiles m
-			    JOIN m.primaryModel pm
-			    JOIN pm.brand b
-			    WHERE FUNCTION('REPLACE', LOWER(CONCAT(b.name, ' ', pm.name)), ' ', '') 
-			          LIKE CONCAT('%', FUNCTION('REPLACE', LOWER(:search), ' ', ''), '%')
-			    """)
-			List<GlassProtector> searchByCompatibleMobileName(@Param("search") String search);
+//	 @Query("""
+//			    SELECT g
+//			    FROM GlassProtector g
+//			    JOIN g.compatibleMobiles m
+//			    JOIN m.primaryModel pm
+//			    JOIN pm.brand b
+//			    WHERE FUNCTION('REPLACE', LOWER(CONCAT(b.name, ' ', pm.name)), ' ', '') 
+//			          LIKE CONCAT('%', FUNCTION('REPLACE', LOWER(:search), ' ', ''), '%')
+//			    """)
+//			List<GlassProtector> searchByCompatibleMobileName(@Param("search") String search);
 }

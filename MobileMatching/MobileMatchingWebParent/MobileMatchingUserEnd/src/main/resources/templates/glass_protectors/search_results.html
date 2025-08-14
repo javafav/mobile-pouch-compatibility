@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Search - MobileMatcher', 'none')">
+</head>
+<body>
+
+<div th:replace= "fragments :: nav"></div>
+
+
+
+<div class="container my-4">
+  <!-- Primary Mobile Model -->
+<div class="card mb-4 shadow-sm" th:if="${!protectors.isEmpty()}">
+  <img th:src="${protectors.get(0).imageUrl}" class="card-img-top img-fluid" alt="Primary Mobile">
+  <div class="card-body">
+    <h5 class="card-title" th:text="${protectors.get(0).name} + ' - Primary Model'"></h5>
+    <p class="card-text">This is the featured mobile model with details.</p>
+  </div>
+</div>
+
+  <!-- Small Models Grid -->
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <img src="mobile1.jpg" class="card-img-top img-fluid" alt="Model 1">
+        <div class="card-body">
+          <h6 class="card-title">CPH2413</h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <img src="mobile2.jpg" class="card-img-top img-fluid" alt="Model 2">
+        <div class="card-body">
+          <h6 class="card-title">CPH2417</h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <img src="mobile3.jpg" class="card-img-top img-fluid" alt="Model 3">
+        <div class="card-body">
+          <h6 class="card-title">CPH2419</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

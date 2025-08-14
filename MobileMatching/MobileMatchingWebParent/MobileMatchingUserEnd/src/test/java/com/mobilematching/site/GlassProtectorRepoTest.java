@@ -73,9 +73,16 @@ public class GlassProtectorRepoTest{
     @Test
     void testFindByCompatibleMobileNameIgnoreCase() {
         List<GlassProtector> results = glassProtectorRepo
-                .searchByCompatibleMobileName("y20");
+                .searchByCompatibleMobileName(" Tecno Spark 20");
 
-        System.out.println("Results: " + results);
+        
+        for (GlassProtector gp : results) {
+            System.out.println("Glass Protector: " + gp.getName());
+
+            for (Mobile mobile : gp.getCompatibleMobiles()) {
+                System.out.println(" - Compatible with: " + mobile.getName());
+            }
+        }
         assertThat(results).isNotNull();
         assertThat(results).isNotEmpty(); // Ensure data exists
     }

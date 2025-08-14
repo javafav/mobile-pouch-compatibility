@@ -1,0 +1,89 @@
+package com.mobilematching.site;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+import java.util.Set;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
+
+import com.mobilematching.common.entity.Brand;
+import com.mobilematching.common.entity.GlassProtector;
+import com.mobilematching.common.entity.Mobile;
+import com.mobilematching.common.entity.PrimaryModel;
+import com.mobilematching.site.glassprotector.GlassProtectorRepository;
+import com.mobilematching.site.mobiles.MobileRepository;
+import com.mobilematching.site.mobiles.PrimaryModelRepository;
+
+@DataJpaTest(showSql = false)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Rollback(false)
+public class GlassProtectorRepoTest{
+
+    @Autowired
+    private GlassProtectorRepository glassProtectorRepo;
+
+    @Autowired
+    private MobileRepository mobileRepo;
+
+    @Autowired
+    private PrimaryModelRepository primaryModelRepo;
+    
+ 
+
+    private Mobile y20Mobile;
+
+//    @BeforeEach
+//    public void setup() {
+//        // Create Mobile
+//        y20Mobile = new Mobile("Y20");
+//        mobileRepo.save(y20Mobile);
+//
+//        // Create PrimaryModel
+//        PrimaryModel model = new PrimaryModel();
+//        Brand vivo = new Brand("Vivo");
+//        model.setName("Primary-Y");
+//        model.setBrand(vivo);
+//        primaryModelRepo.save(model);
+//
+//        // Create GlassProtector and add compatible mobile
+//        GlassProtector protector1 = new GlassProtector("Vivo-Y20-Protector", model);
+//        protector1.setCompatibleMobiles(Set.of(y20Mobile));
+//        glassProtectorRepo.save(protector1);
+//
+//        // Create another GlassProtector not compatible with Y20
+//        GlassProtector protector2 = new GlassProtector("Samsung-A21-Protector", model);
+//        glassProtectorRepo.save(protector2);
+//    }
+
+    @Test
+    public void testFindByCompatibleMobileName() {
+        List<GlassProtector> result = glassProtectorRepo.searchByCompatibleMobileName("Y20");
+
+        assertThat(result).isNotEmpty();
+        assertThat(result).anyMatch(gp -> gp.getName().contains("Y20"));
+    }
+    
+    
+    @Test
+    void testFindByCompatibleMobileNameIgnoreCase() {
+        List<GlassProtector> results = glassProtectorRepo
+                .searchByCompatibleMobileName("Spark 20");
+
+        
+        for (GlassProtector gp : results) {
+            System.out.println("Glass Protector: " + gp.getName());
+
+            for (Mobile mobile : gp.getCompatibleMobiles()) {
+                System.out.println(" - Compatible with: " + mobile.getName());
+            }
+        }
+        assertThat(results).isNotNull();
+        assertThat(results).isNotEmpty(); // Ensure data exists
+    }
+}

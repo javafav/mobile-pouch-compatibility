@@ -1,0 +1,21 @@
+package com.mobilematching.site.glassprotector;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.mobilematching.common.entity.GlassProtector;
+
+@Service
+public class GlassProtectorService {
+
+	 private final GlassProtectorRepository glassProtectorRepo;
+
+	    public GlassProtectorService(GlassProtectorRepository glassProtectorRepo) {
+	        this.glassProtectorRepo = glassProtectorRepo;
+	    }
+
+	    public List<GlassProtector> searchGlassProtectorsByMobile(String mobileName) {
+	        return glassProtectorRepo.searchByCompatibleMobileName(mobileName);
+	    }
+}
