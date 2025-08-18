@@ -89,7 +89,7 @@ public class MobileController {
 			mobile.setPhoto(fileName);
 
 			mobileService.saveMobile(mobile);
-			String uploadDir = "./mobile-photos/";
+			String uploadDir = "../mobile-photos/";
 
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 

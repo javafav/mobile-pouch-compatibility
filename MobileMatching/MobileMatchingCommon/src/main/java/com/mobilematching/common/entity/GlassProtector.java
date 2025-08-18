@@ -16,6 +16,10 @@ public class GlassProtector {
     @Column(nullable = false, length = 45, unique = true)
     private String name;
     
+    
+    @Column(nullable = false, length = 128)
+    private String image;
+    
     private double price;
 
     @ManyToOne
@@ -120,8 +124,19 @@ public class GlassProtector {
     public boolean isCompatibleWith(Mobile mobile) {
         return this.compatibleMobiles.contains(mobile);
     }
+    
+    
+    
 
-    // equals & hashCode
+    public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	// equals & hashCode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -145,4 +160,11 @@ public class GlassProtector {
                 ", brand='" + brand + '\'' +
                 '}';
     }
+    
+    @Transient
+  	public String getImagePath() {
+  		if (this.id == null) return "/images/image-thumbnail.png";
+  		
+  		return "/glass_protector/" + this.id + "/" + this.image;		
+  	}
 }

@@ -97,12 +97,26 @@ public class GlassProtectorController {
     @PostMapping("/glass_protectors/save")
     public String saveGlassProtector(GlassProtector protector,
                                      RedirectAttributes redirectAttributes,
-                                       
+                                     @RequestParam("fileImage") MultipartFile multipartFile,
                                      @RequestParam(value = "compatibleMobiles", required = true) List<Long> mobileIds) throws IOException {
 
     
+    	
+    	if (!multipartFile.isEmpty()) {
+			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			protector.setImage(fileName);
 
-        glassProtectorService.save(protector, mobileIds);
+			glassProtectorService.save(protector, mobileIds);
+			String uploadDir = "../glass_protector/";
+
+			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
+		}else {
+
+	        glassProtectorService.save(protector, mobileIds);
+		}
+    	
+
 
         redirectAttributes.addFlashAttribute("message", "The glass protector has been saved successfully.");
         return "redirect:/glass_protectors";

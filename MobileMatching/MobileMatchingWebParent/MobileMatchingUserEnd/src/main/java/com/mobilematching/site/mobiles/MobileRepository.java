@@ -9,5 +9,9 @@ import com.mobilematching.common.entity.Mobile;
 public interface MobileRepository extends JpaRepository<Mobile, Long> {
     Mobile findByName(String name);
     
+//    Optional<Mobile> findFirstByNameIgnoreCaseContaining(String name);
+    
+    Optional<Mobile> findByNameIgnoreCase(String name);
+
     Optional<Mobile> findFirstByNameIgnoreCaseContaining(String name);
 }

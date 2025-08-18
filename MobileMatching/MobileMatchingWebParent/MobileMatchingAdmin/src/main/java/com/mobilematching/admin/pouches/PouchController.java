@@ -94,7 +94,7 @@ public class PouchController {
 		if (!multipartFile.isEmpty()) {
 			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			pouch.setImage(fileName);
-			String uploadDir = "./pouch-photos/";
+			String uploadDir = "../pouch-photos/";
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 			pouchService.save(pouch, mobileIds);
 
