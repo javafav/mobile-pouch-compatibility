@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head
+	th:replace="fragments :: page_head('Search - MobileMatcher', 'none')">
+</head>
+<body>
+
+	<div th:replace="fragments :: nav"></div>
+
+
+<div class="container mt-4" th:if="${!protectors.isEmpty()}">
+
+  <!-- Featured / Primary Model -->
+  <div class="card mb-4 shadow-sm">
+    <div class="row no-gutters align-items-center">
+
+      <!-- Main Image -->
+      <div class="col-md-5 text-center p-3">
+        <img th:src="@{${protectors.get(0).imagePath}}"
+             class="img-fluid rounded shadow-sm"
+             style="max-width: 250px; height: auto;"
+             alt="Primary Mobile">
+      </div>
+
+      <!-- Main Text -->
+      <div class="col-md-7">
+        <div class="card-body">
+          <h4 class="card-title"
+              th:text="${protectors.get(0).name} + ' - Primary Model'"></h4>
+          <p class="card-text">
+            This is the featured mobile model with details.  
+            You can highlight why this model is important here.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Other Models Grid -->
+  <h5 class="mb-3">Other Models</h5>
+  <div class="row">
+    <div class="col-md-3 mb-4" th:each="protector, iterStat : ${protectors}"
+         th:if="${iterStat.index > 0}">
+      <div class="card h-100 shadow-sm">
+        <img th:src="@{${protector.imagePath}}"
+             class="card-img-top img-fluid"
+             style="height: 180px; object-fit: contain;"
+             th:alt="${protector.name}">
+        <div class="card-body">
+          <h6 class="card-title" th:text="${protector.name}"></h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+</body>
+</html>

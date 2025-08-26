@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head
+	th:replace="fragments :: page_head('Search - MobileMatcher', 'none')">
+</head>
+<body>
+
+	<div th:replace="fragments :: nav"></div>
+
+
+
+<div class="container my-4">
+    <!-- Primary Mobile Model -->
+    <div class="card mb-4 shadow-sm" th:if="${!mobiles.isEmpty()}">
+        <img th:src="@{${mobiles.get(0).imagePath}}" class="card-img-top img-fluid" alt="Primary Mobile">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${mobiles.get(0).modelName}">Primary Model</h5>
+            <p class="card-text">This is the featured mobile model.</p>
+        </div>
+    </div>
+
+    <!-- Small Models Grid -->
+    <div class="row">
+        <div class="col-md-4 mb-4" th:each="mobile, iterStat : ${mobiles}"
+             th:if="${iterStat.index > 0}">
+            <div class="card h-100">
+                <img th:src="@{${mobile.imagePath}}" class="card-img-top img-fluid" th:alt="${mobile.modelName}">
+                <div class="card-body">
+                    <h6 class="card-title" th:text="${mobile.modelName}">Other Model</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

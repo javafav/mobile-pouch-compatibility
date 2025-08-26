@@ -12,6 +12,8 @@ public interface MobileRepository extends JpaRepository<Mobile, Long> {
 //    Optional<Mobile> findFirstByNameIgnoreCaseContaining(String name);
     
     Optional<Mobile> findByNameIgnoreCase(String name);
+    
+    Optional<Mobile> findByModelIgnoreCase(String name);
 
     Optional<Mobile> findFirstByNameIgnoreCaseContaining(String name);
 }

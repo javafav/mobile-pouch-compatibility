@@ -107,7 +107,7 @@ public class GlassProtectorController {
 			protector.setImage(fileName);
 
 			glassProtectorService.save(protector, mobileIds);
-			String uploadDir = "../glass_protector/";
+			String uploadDir = "../glass_protector/" + protector.getId();
 
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 

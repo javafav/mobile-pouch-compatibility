@@ -22,6 +22,7 @@ public class MvcConfig implements WebMvcConfigurer {
 		exposeDirectory("../category-images", registry);
 		exposeDirectory("../brand-logos", registry);
 		exposeDirectory("../pouch-photos", registry);
+		exposeDirectory("../glass_protector", registry);
 
 		
 	}

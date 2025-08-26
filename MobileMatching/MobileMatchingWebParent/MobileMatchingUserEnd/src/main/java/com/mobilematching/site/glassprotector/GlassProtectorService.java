@@ -34,7 +34,8 @@ public class GlassProtectorService {
 	public PrimaryAndCompatibleModelsDto findPrimaryAndCompatibleMobiles(String search) {
 	    // 1. Find the primary model based on the search term
 		Mobile primaryModel = mobileRepo.findByNameIgnoreCase(search)
-			    .or(() -> mobileRepo.findFirstByNameIgnoreCaseContaining(search))
+				 .or(() -> mobileRepo.findByModelIgnoreCase(search))
+				.or(() -> mobileRepo.findFirstByNameIgnoreCaseContaining(search))
 			    .orElseThrow(() -> new RuntimeException("Mobile not found: " + search));
 
 	    System.out.println("[Service] Found primary model: " + primaryModel.getName() + " (ID: " + primaryModel.getId() + ")");

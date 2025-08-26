@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head
+	th:replace="fragments :: page_head('Pouches - MobileMatcher', 'none')"></head>
+
+<body>
+	<div class="container-fluid">
+		<div th:replace="navigation :: menu"></div>
+
+		<div>
+			<h2>Manage Glass Protectors</h2>
+			<a th:href="@{/glass_protectors/new}"
+				class="fa fa-folder-plus fa-2x icon-dark mr-3"></a>
+		</div>
+
+		<div th:replace="fragments :: search_form_and_message('/glass_protectors')"></div>
+
+		<div class="full-details">
+			<table
+				class="table table-bordered table-striped table-hover table-responsive-md table-width">
+				<thead class="thead-dark">
+					<tr>
+						
+					
+						<th>Name</th>
+						<th>Primary Model</th>
+						<th>Image</th>
+						<th>Compatibles Mobile</th>
+						<th>Compatible Models</th>
+						<th>Price</th>
+
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:each="glass : ${listGlassProtectors}">
+						<tr>
+						
+
+							<td>[[${glass.name}]]</td>
+							<td><span th:text="${glass.primaryModel != null ? glass.primaryModel.name : 'No Model'}"></span>
+							</td>
+								<td><img th:src="@{${glass.imagePath}}" class="img-fluid"
+								style="width: 120px; height: auto;"></td>
+								
+
+							<td><th:block th:each="mobile : ${glass.compatibleMobiles}">
+									<span class="badge badge-secondary">[[${mobile.name}]]</span>
+								</th:block></td>
+
+							<td><th:block th:each="mobile : ${glass.compatibleMobiles}">
+									<span class="badge badge-info ">[[${mobile.model}]]</span>
+								</th:block></td>
+							<td>[[${glass.price}]]</td>
+
+
+
+							<td>
+								<div
+									th:replace="fragments :: edit('glass_protectors','/glass_protectors/edit/' + ${glass.id})"></div>
+								&nbsp;
+								<div
+									th:replace="fragments :: delete('glass_protectors','/glass_protectors/delete/' + ${glass.id},${glass.id},true)"></div>
+							</td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+		</div>
+
+		<div
+			th:replace="pagination_for_more_then_10page :: pagination('/glass_protectors', 'glass_protector')"></div>
+		<div th:replace="modal_fragments :: confirm_modal"></div>
+		<div th:replace="fragments :: footer"></div>
+	</div>
+
+	<script type="text/javascript">
+		moduleURL = "[[@{/glass_protectors}]]";
+		entityName = "glass_protectors";
+	</script>
+	<script th:src="@{/js/common.js}"></script>
+	<script th:src="@{/js/common_list.js}"></script>
+</body>
+</html>
