@@ -2,6 +2,7 @@ package com.mobilematching.site.glassprotector;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,33 +33,42 @@ public class GlassProtectorService {
 	private MobileRepository mobileRepo;
 
 	public PrimaryAndCompatibleModelsDto findPrimaryAndCompatibleMobiles(String search) {
-	    // 1. Find the primary model based on the search term
-		Mobile primaryModel = mobileRepo.findByNameIgnoreCase(search)
-				 .or(() -> mobileRepo.findByModelIgnoreCase(search))
+		// 1. Find the primary model based on the search term
+		Mobile primaryModel = mobileRepo.findByNameIgnoreCase(search).or(() -> mobileRepo.findByModelIgnoreCase(search))
 				.or(() -> mobileRepo.findFirstByNameIgnoreCaseContaining(search))
-			    .orElseThrow(() -> new RuntimeException("Mobile not found: " + search));
+				.orElseThrow(() -> new RuntimeException("Mobile not found: " + search));
 
-	    System.out.println("[Service] Found primary model: " + primaryModel.getName() + " (ID: " + primaryModel.getId() + ")");
+		System.out.println(
+				"[Service] Found primary model: " + primaryModel.getName() + " (ID: " + primaryModel.getId() + ")");
 
-	    // 2. Find all glass protectors compatible with this model
-	    List<GlassProtector> protectors = glassProtectorRepo.findByCompatibleMobile(primaryModel.getId());
-	    if (protectors == null) {
-	        protectors = Collections.emptyList();
-	    }
-	    System.out.println("[Service] Found " + protectors.size() + " glass protectors for this model.");
+		// 2. Find all glass protectors compatible with this model
+		List<GlassProtector> protectors = glassProtectorRepo.findByCompatibleMobile(primaryModel.getId());
+		if (protectors == null) {
+			protectors = Collections.emptyList();
+		}
+		System.out.println("[Service] Found " + protectors.size() + " glass protectors for this model.");
 
-	    // 3. Find all mobiles compatible with those glass protectors
-	    Set<Mobile> compatibleMobiles = protectors.stream()
-	            .flatMap(gp -> gp.getCompatibleMobiles().stream())
-	            .filter(m -> !m.getId().equals(primaryModel.getId())) // exclude primary
-	            .collect(Collectors.toSet());
+		// 3. Find all mobiles compatible with those glass protectors
+		//Comparator<Mobile> sortByName = Comparator.comparing(Mobile::getName);
+		Comparator<Mobile> sortByBrandId = (m1, m2) -> Long.compare(m1.getBrand().getId(), m2.getBrand().getId());
 
-	    System.out.println("[Service] Found " + compatibleMobiles.size() + " compatible mobiles.");
 
-	    // 4. Return as DTO
-	    PrimaryAndCompatibleModelsDto dto = new PrimaryAndCompatibleModelsDto(primaryModel, new ArrayList<>(compatibleMobiles));
-	    dto.setProtectors(protectors); // ensure DTO has protectors
+		
+		Set<Mobile> compatibleMobiles = protectors.stream()
+				
+				.flatMap(gp -> gp.getCompatibleMobiles().stream())
+				.filter(m -> !m.getId().equals(primaryModel.getId())) // exclude primary
+				.sorted(sortByBrandId)
+				.collect(Collectors.toSet());
 
-	    return dto;
+		compatibleMobiles.add(primaryModel);
+		System.out.println("[Service] Found " + compatibleMobiles.size() + " compatible mobiles.");
+
+		// 4. Return as DTO
+		PrimaryAndCompatibleModelsDto dto = new PrimaryAndCompatibleModelsDto(primaryModel,
+				new ArrayList<>(compatibleMobiles));
+		dto.setProtectors(protectors); // ensure DTO has protectors
+
+		return dto;
 	}
 }
